@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt-br" lang="pt-br">
+{{include 'web2py_ajax.html'}}
+<head>
+    <meta charset="UTF-8"/>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+    <script src="{{=URL('static','js/jquery.mask.js')}}"></script>
+    <script src="SpryValidationTextField.js" type="text/javascript"></script>
+    <link href="SpryValidationTextField.css" rel="stylesheet" type="text/css" />
+    <link href="{{=URL('static','css/calendar.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{=URL('static','css/web2py.css')}}" rel="stylesheet" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="{{=URL('static','css/web2py.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{=URL('static','css/web2py-bootstrap4.css')}}"/>
+    <link type="text/css" rel="stylesheet" href="{{=URL('static','css/padrao.css')}}"/>
+    {{block head}}
+    {{end head}}
+
+    <title>Controle de Validade</title>
+</head>
+<body>
+    <div class="logo">
+    <a href="{{=URL('index')}}"> <img src="{{=URL('static','images/logo.png')}}" width="200" height="100"/></a>
+    </div>
+                            <!-- BARRA DE NAVEGAÇÃO / MENU -->
+    <nav id="naveg_2">
+        <ul>
+            <a id="naveg" href="{{=URL('index')}}">Controle de Validade</a>
+            <a id="naveg"href="{{=URL('cadKits')}}">Cadastro Kits</a>
+            <a id="naveg" href="{{=URL('kits')}}">Kits</a>
+        </ul>
+    </nav>
+    <div class="marrom_C">
+{{block conteudo}}
+{{end conteudo}}
+    </div>
+<!-- FIM DO MENU -->
+{{block script}}
+{{end script}}
+
+</body>
+</html>

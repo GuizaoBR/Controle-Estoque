@@ -1,0 +1,45 @@
+{{extend 'layoutControle.html'}}
+
+
+{{block head}}
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css/estilo.css')}}">
+{{end head}}
+
+<body>
+   <div id="logo">
+	<img src="logoo.png" height= "90px" width="250px"></br>
+	</div>
+	<nav>
+	        <ul>
+	            <a href="">Controle de Validade</a>
+	            <a href="">Fluxo de Caixa</a>
+	            <a href="">Relatório Mensal</a>
+	        </ul>
+	    </nav>
+	                            <!-- FIM DO MENU -->
+
+	                            <!-- FIM DA DESCRIÇÃO -->
+
+
+
+		<br>
+		<div class="main marrom_C">
+			<center><h1 class="titulo">Cadastro de Kits</h1></center>
+
+		<center>
+			<div class="login">
+					<input type="text" placeholder="Nome do Kit" name="Nome_kit"><br/>
+					<input type="text" placeholder="Digite os produtos desejados" name="Produtos_kit">
+					<input type="text" placeholder="QTD" name="Produtos_QTD"></br>
+					<input type="button" value="Adicionar"></br>
+			</div>
+		</center>
+
+
+			</div>
+
+		</div>
+
+   </div>
+	</div>
+</body>

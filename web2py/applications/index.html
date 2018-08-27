@@ -1,0 +1,43 @@
+{{extend 'layoutControle.html'}}
+
+{{block head}}
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css/teste.css')}}"/>
+{{end block}}
+
+{{block conteudo}}
+
+<center>
+    {{=tabela}}
+</center>
+<button id="modalBtn" class="botao">+</button>
+<!--<form action=""  enctype="multipart/form-data" method="post">-->
+  <div id="Modal" class="pop-up">
+      <div class="pop-up-content">
+          <span class="fecharBtn">&times;</span>
+          <h3><center>Entrada De Produtos</center></h3>
+          <div class="cadastro_Form">
+              <fieldset id="Desc_Cad">
+              PRODUTO
+              LOTE
+              VALIDADE
+              QUANTIDADE
+              </fieldset><br>
+              <fieldset class="inputs">
+                <!--div criada para arrumar layout quebrado pelo web2py-->
+                <div class="mover">
+                    {{=entradaProdutos}}
+                </div>
+              </fieldset>
+              <button type="submit" onclick="formSubmit()">CADASTRAR</button>
+              <button type="reset" id='cancelaCad'>CANCELAR</button>
+          </div>
+     </div>
+  </div>
+<!--</form>-->
+
+{{end block}}
+
+
+{{block script}}
+<script src="{{=URL('static','js/script.js')}}"></script>
+{{end script}}

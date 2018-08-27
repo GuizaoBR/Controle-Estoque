@@ -1,0 +1,132 @@
+@font-face{
+    font-family: 'Font_Nav';
+    src: url("tartinescriptregular.ttf");
+
+}
+/*
+BARRA DE NAVEGAÇÃO
+*/
+
+
+
+
+
+
+.login input[type=text]::first-line{
+	width: 300px;
+	height: 20px;
+	background: #9e470c;
+	border: 1px;
+  border-style:double;
+	border-radius: 5px;
+	color: #FFFFFF;
+	font-family: 'Exo', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	padding: 4px;
+	margin-top: 10px;
+
+}
+
+
+.login input[type=text]{
+	width: 150px;
+	height: 20px;
+	background: #9e470c;
+	border: 1px;
+  border-style:double;
+	border-radius: 5px;
+	color: #000000;
+	font-family: 'Exo', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	padding: 4px;
+	margin-top: 10px;
+
+}
+
+input[type=submit]{
+	width: 100px;
+	height: 30px;
+	background: #330000;
+	border: 1px solid #fff;
+	cursor: pointer;
+	border-radius: 2px;
+	color: #FFFFFF;
+	font-family: 'Exo', HouschkaMediumNew;
+	font-size: 16px;
+	font-weight: 400;
+	padding: 6px;
+	margin-top: 10px;
+}
+
+
+input[type=submit]:hover{
+	opacity: 0.8;
+}
+
+input[type=submit]:active{
+	opacity: 0.6;
+}
+
+.login input[type=text]:focus{
+	outline: none;
+	border: 1px solid rgba(255,255,255,0.9);
+}
+input[type=submit]:focus{
+	outline: none;
+}
+
+
+.titulo{
+  color: #330000;
+  font-size: 40px;
+  text-shadow:  10px 0px 0px 0px  #FFFFFF;
+}
+h1 {
+    text-shadow: 2px 2px 5px white;
+    font-family: Font_Nav
+
+}
+
+/*.login{
+  display: flex;
+  flex-wrap: nowrap;
+}*/
+
+.flex{
+  width: 30%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+
+}
+
+
+.form-control{
+  margin: 0
+}
+
+
+/*
+#Kits_Nome__row{
+  order: 1;
+  align-self: flex-start;
+}
+#Kits_QuantidadeKits__row{
+  order: 2;
+  align-self: flex-start;
+}
+#Kits_ID_EntradaProdutoEstoque__row{
+  order: 3;
+}
+#Kits_QuantidadeProdutos__row{
+  order: 4
+}
+*/
+
+select{
+  border-radius: 5px;
+
+}

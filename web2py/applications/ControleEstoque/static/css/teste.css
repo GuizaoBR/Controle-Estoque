@@ -1,0 +1,439 @@
+
+@font-face{
+    font-family: 'Font_Nav';
+    src: url("../fonts/tartinescriptregular.ttf");
+
+}
+
+@font-face{
+
+	font-family: 'Font_Prod';
+    src: url("../fonts/CANDARA.ttf");
+
+}
+
+body{
+    background-color: #fff;
+}
+
+/*
+                                BOTÃO FLUTUANTE EXCLUSÃO
+*/
+.botaoEX{
+    background-color: #db5605;
+    padding: 1em 2em;
+    color: #ffff;
+    border: 0;
+    border-radius: 100%;
+    position: fixed;
+    bottom: 10px;
+    width: 60px;
+    height: 60px;;
+    box-shadow: 0 7px 20px 0 rgba(0 , 0 , 0 ,0.9),0 7px 20px 0 rgba(0 , 0 , 0 ,0.17);
+    font-size: 35px;
+    line-height: 11px;
+    padding: 0;
+    outline: 0;
+    cursor: pointer;
+    right: 3%;
+}
+
+.botaoEX:hover{
+    background: coral;
+}
+/*
+-------------------------------------------------------------------------------------------
+*/
+
+/*
+                                POP-UP / MODAL EXCLUSÃO
+*/
+.pop-upEX{
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    cursor: pointer;
+    background-color: rgba(0,0,0,0.5);
+
+
+}
+
+.pop-up-contentEX{
+    background-color: #ffffff;
+    margin: 10% auto;
+    padding: 20px;
+    width: 70%;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
+    cursor: default;
+
+}
+
+.fecharBtnEX{
+    color: rgba(197, 109, 8, 0.8);
+    float: right;
+    font-size: 30px;
+
+}
+.fecharBtnEX:hover, .fecharBtnEX:focus{
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+}
+/*
+-------------------------------------------------------------------------------------------
+*/
+
+/*
+                                FORM DE EXCLUSÃO
+*/
+.pop-up-contentEX h3{
+    font-family: 'Font_Nav';
+    color:#5d1c06;
+}
+#lixeira{
+    font-size:25px;
+    margin-left: 10px;
+}
+.cadastro_FormEX{
+    font-family: 'Font_Nav';
+    color:#5d1c06;
+    text-align: center;
+    font-weight: bold;
+
+}
+#Desc_EX{
+    word-spacing: 140px;
+
+}
+
+::-webkit-input-placeholder {
+  color: #fff;
+}
+
+:-moz-placeholder {
+  color: #fff;
+}
+
+::-moz-placeholder {
+  color: #fff;
+}
+
+:-ms-input-placeholder {
+  color: #fff;
+}
+.cadastro_FormEX button{
+    background-color: #5d1c06;
+    margin: 25px 60px 0 60px;
+    color: #fff;
+    height: 30px;
+    font-family: 'Font_Prod';
+    cursor: pointer;
+    border-radius: 100px;;
+    border:0;
+    outline: 0;
+    width: 250px;
+
+}
+
+
+
+
+
+/*
+                                BOTÃO FLUTUANTE
+*/
+.botao{
+    background-color: #db5605;
+    padding: 1em 2em;
+    color: #ffff;
+    border: 0;
+    border-radius: 100%;
+    position: fixed;
+    bottom: 10px;
+    /*right: 3%;*/
+    width: 60px;
+    height: 60px;;
+    box-shadow: 0 7px 20px 0 rgba(0 , 0 , 0 ,0.9),0 7px 20px 0 rgba(0 , 0 , 0 ,0.17);
+    font-size: 35px;
+    line-height: 11px;
+    padding: 0;
+    outline: 0;
+    cursor: pointer;
+}
+
+.botao:hover{
+    background: coral;
+}
+/*
+-------------------------------------------------------------------------------------------
+*/
+
+/*
+                                POP-UP / MODAL
+*/
+.pop-up{
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    cursor: pointer;
+
+}
+
+.pop-up-content{
+    background-color: #ffffff;
+    margin: 10% auto;
+    padding: 20px;
+    width: 70%;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
+    cursor: default;
+
+}
+
+.fecharBtn{
+    color: rgba(197, 109, 8, 0.8);
+    float: right;
+    font-size: 30px;
+
+}
+.fecharBtn:hover, .fecharBtn:focus{
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+}
+/*
+-------------------------------------------------------------------------------------------
+*/
+
+/*
+                                FORM DE CADASTRO
+*/
+.pop-up-content h3{
+    font-family: 'Font_Nav';
+    color:#5d1c06;
+}
+
+.cadastro_Form{
+    font-family: 'Font_Nav';
+    color:#5d1c06;
+    text-align: center;
+    font-weight: bold;
+    display: flex; /*alteradp para flex para mostrar erros do formulário*/
+    flex-direction: column;
+    justify-content: space-around;
+}
+#Desc_Cad{
+    word-spacing: 140px;
+
+}
+
+
+
+/*Classe do web2py alterada para arrumar a interface do poopup*/
+.form-group{
+  float: left;
+}
+
+/*Classe do web2py para alterar os inputs*/
+.form-control{
+    margin: 30px;
+    text-align: center;
+    height: 25px;
+    background-color: #9e470c;
+    color: #ffffff;
+    width: 150px;
+    font-size: 15px;
+    font-family: 'Font_Prod';
+
+}
+::-webkit-input-placeholder {
+  color: #fff;
+}
+
+:-moz-placeholder {
+  color: #fff;
+}
+
+::-moz-placeholder {
+  color: #fff;
+}
+
+:-ms-input-placeholder {
+  color: #fff;
+}
+.cadastro_Form button{
+    background-color: #5d1c06;
+    margin: 25px 60px 0 60px;
+    color: #fff;
+    height: 30px;
+    font-family: 'Font_Prod';
+    cursor: pointer;
+    border-radius: 100px;;
+    border:0;
+    outline: 0;
+    width: 250px;
+
+}
+
+.botoes{
+  flex-direction: row;
+}
+
+
+
+/*
+--------------------------------------------------------------------->
+*/
+
+/*
+                                BARRA DE NAVEGAÇÃO
+*/
+#naveg_2{
+    margin-left:50%;
+    font-size: 25px;
+    float:none;
+    margin-top:-90px;
+
+
+}
+
+
+#naveg{
+    text-decoration: none;
+    color:#5d1c06;
+    font-family: 'Font_Nav';
+	  padding: 10px;
+
+
+}
+#naveg:hover {
+    background-color: #5d1c06;
+    color:#fff;
+    padding: 20px;
+    float:none;
+    font-family: 'Font_Nav';
+    font-size: 30px;
+
+
+
+}
+.logo{
+  margin-bottom: 50px;
+  position: relative;
+  width: 50%;
+}
+
+/*
+--------------------------------------------------------------------->
+*/
+
+/*
+                                TABELA DE PRODUTOS
+*/
+
+
+table{
+    background-color: #db5605;
+    border-radius: 12px;
+    border-spacing: 10px;
+    width: 70%;
+    margin-top:50px;
+    margin-bottom: 50px;
+
+}
+th{
+    background-color:#5d1c06;
+    color: #fff;
+    font-size: 25px;
+    border-radius: 10px;
+    font-family: 'Font_Nav';
+	  font-weight:normal;
+
+}
+td{
+    color: #fff;
+    font-size: 25px;
+    width: 30px;
+    text-align: center;
+    border-bottom: 3px solid #efbb98;
+    font-family: 'Font_Prod';
+
+}
+.web2py_paginator{
+  background:#b97a57;
+  text-align: center;
+  font-family: 'Font_Nav';
+  font-size: 30px;
+
+
+}
+
+
+/*Classes do web2py para estilizar a paginação*/
+.current{
+
+  border-style: outset;
+  border-color: #db5605;
+  background-color: #db5605;
+  border-width: 4px;
+  border-radius: 20px 20px 20px 20px;
+  font-size: 40px
+
+}
+
+
+.web2py_grid .row_buttons a,
+.web2py_paginator ul li a,
+.web2py_search_actions a,
+.web2py_console input[type=submit],
+.web2py_console input[type=button],
+.web2py_console button{
+    text-decoration: none;
+    color: white
+
+}
+
+.web2py_counter{
+  font-family: 'Font_Prod';
+}
+.calendar tbody .day {
+    width: 0em;
+    text-align: right;
+    padding: 0;
+}
+.calendar::before {
+    margin: 0px;
+    font-size: 11px;
+    background-color: #fff;
+    cursor: default;
+    font-family: tahoma,verdana,sans-serif;
+}
+
+
+
+
+
+/*erros do formulario*/
+.erros{
+  display: flex;
+  justify-content: space-between;
+  }
+div.error{
+  color: red;
+  flex-basis: 1;
+  width: 25%;
+}
+
+
+
+  /*
+--------------------------------------------------------------------->
+*/
