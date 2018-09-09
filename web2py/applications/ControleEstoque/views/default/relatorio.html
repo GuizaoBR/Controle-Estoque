@@ -1,0 +1,28 @@
+{{extend 'layoutControle.html'}}
+
+
+{{block head}}
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css/teste.css')}}"/>
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css/estilo.css')}}"/>
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css/relatorio.css')}}"/>
+
+{{end head}}
+
+{{block conteudo}}
+<center>
+  <h1>Relátorio</h1>
+  <form action="#" enctype="multipart/form-data" method="post" class="flex">
+      {{=relatorio.custom.begin}}
+        <label id="Inicial" for="no_table_dataInicial">Data Inicial</label>
+        <label id="Final" for="no_table_dataFinal"> Data Final</label>
+        {{=relatorio.custom.widget.dataInicial}}
+        {{=relatorio.custom.widget.dataFinal}}
+        <div class="mover">
+          <input type="submit" value="Gerar">
+        </div>
+      {{=relatorio.custom.end}}
+
+  </form>
+</center>
+
+{{end conteudo}}

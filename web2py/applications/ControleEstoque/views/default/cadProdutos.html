@@ -1,0 +1,54 @@
+{{extend 'layoutControle.html'}}
+
+{{block head}}
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css/estilo.css')}}"/>
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css/cadastro.css')}}"/>
+{{end block}}
+
+{{block conteudo}}
+<center>
+<div id="tabela">
+                            <!--TABELA DE CADASTRO DE NOVOS PRODUTOS -->
+    <title>Cadastro de Novos Produtos</title>
+    <form action="#" enctype="multipart/form-data" method="post">
+            <table>
+                    <p>CADASTRO DE NOVOS PRODUTOS</p>
+
+            <tr>
+                <th> PRODUTO </th>
+                <th> PREÇO </th>
+                <th> UNIDADE DE MEDIDA </th>
+
+            </tr>
+            <tr>
+              {{=cadP.custom.begin}}
+                <td title="Digíte o nome do novo produto">{{=cadP.custom.widget.ProdutoDescricao}}</td>
+                <td title="Digíte o valor do novo produto">{{=cadP.custom.widget.CustoUnitario}}</td>
+                <td title="Selecione a unidade de medida do novo produto">{{=cadP.custom.widget.ID_TipoUnidade}}</td>
+            </tr>
+
+            </table>
+            <table>
+                <tr>
+                    <th> CÓDIGO DE BARRAS </th>
+                    <th> CÓDIGO CACAU SHOW </th>
+                    <th> Reposição </th>
+                </tr>
+                <tr>
+                    <td title="Digíte o código de Barras">{{=cadP.custom.widget.CodigoBarras}}</td>
+                    <td title="Digíte o código da Cacau Show">{{=cadP.custom.widget.CodigoCacauShow}}</td>
+                    <td title="Quantidade minima para aviso reposição no estoque">{{=cadP.custom.widget.QuantidadeMinima}}</td>
+
+                </tr>
+
+
+            </table>
+            <div id="botoes">
+              <input  id="SavCad" type="submit" value="Adicionar"></br>
+            </div>
+            {{=cadP.custom.end}}
+          </form>
+        </div>
+    </div>
+  </center>
+{{end conteudo}}

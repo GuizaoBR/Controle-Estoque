@@ -1,0 +1,40 @@
+@font-face{
+    font-family: 'Font_Nav';
+    src: url("../fontes/tartinescriptregular.ttf");
+}
+@font-face{
+
+	font-family: 'Font_Prod';
+    src: url("../fontes/CANDARA.ttf");
+
+}
+p {
+    font-family: 'Font_Prod';
+    font-size: 30px;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+}
+
+tr th{
+    color: #ffffff;
+    font-family: 'Font_Prod';
+    margin-left: 50px;
+
+}
+table{
+   margin-left: 25%;
+   padding: 05%;
+   margin-top: -20px;
+   margin-right: 25%;
+}
+
+#SavCad{
+   font-family: 'Font_Prod';
+   font-size: 20px;
+   font-weight: bold;
+   margin-left: 25%;
+   margin-right: 25%;
+   outline: 0;
+
+}

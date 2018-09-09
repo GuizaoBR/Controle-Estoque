@@ -36,6 +36,25 @@ def kitsVer(form):
                 verifica.update(Quantidade = db.EntradaProdutoEstoque.Quantidade - produtos)
                 tamLista -= 1
 
+def arquivo(form):
+    ini = form.vars.dataInicial
+    fim = form.vars.dataFinal
+    relat = db((db.SaidaProdutoEstoque.Data >= ini) & (db.SaidaProdutoEstoque.Data <= fim)).select(
+        db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque, db.SaidaProdutoEstoque.CustoUnitario,
+        db.SaidaProdutoEstoque.Data, db.SaidaProdutoEstoque.Quantidade,
+        join=db.EntradaProdutoEstoque.on(db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque == db.EntradaProdutoEstoque.id)
+    )
+    db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque.requires =  IS_IN_DB(db, db.EntradaProdutoEstoque,
+                                                                        lambda r: '%s - %s' % (r.Lote, r.ID_Produto.ProdutoDescricao))
+
+    arquivo = open("relatorio.txt", "w")
+    arquivo.write("Produto " + "Data " + "Custo Unidade " + "Quantidade \n")
+
+    for x in relat:
+        arquivo.write(str(x.ID_EntradaProdutoEstoque) + " " + str(x.Data) + " " + str(x.CustoUnitario) + " " + str(x.Quantidade) +"\n")
+
+    arquivo.close()
+
 
 
 def index():
@@ -117,9 +136,34 @@ def kits():
                      fields = [db.Kits.Nome, db.Kits.QuantidadeProdutos, db.Kits.QuantidadeKits])
     return dict(tabelaKits=TabelaKits)
 
+def relatorio():
+    relatorio = SQLFORM.factory(
+        Field("dataInicial", type="date"),
+        Field("dataFinal", type="date")
+    )
+    if relatorio.process(onvalidation=arquivo).accepted:
+        redirect(URL())
+        response.flash = "Salvo"
+    elif relatorio.errors:
+        response.flash = 'Erro'
+    else:
+        response.flash = "Preencha todos os campos"
 
+    return dict(relatorio=relatorio)
 
+def cadProdutos():
+    cadP=  SQLFORM(db.Produto)
+    
 
+    if cadP.process().accepted:
+        redirect(URL())
+        response.flash = "Salvo"
+    elif cadP.errors:
+        response.flash = 'Erro'
+    else:
+        response.flash = "Preencha todos os campos"
+
+    return(dict(cadP=cadP))
 
 
 # ---- API (example) -----

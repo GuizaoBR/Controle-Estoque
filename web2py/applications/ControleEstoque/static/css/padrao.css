@@ -1,3 +1,17 @@
+@font-face{
+    font-family: 'Font_Nav';
+    src: url("../fonts/tartinescriptregular.ttf");
+
+}
+
+@font-face{
+
+	font-family: 'Font_Prod';
+    src: url("../fonts/CANDARA.ttf");
+
+}
+
+
 .marrom_C{
     background:#b97a57;
     position: absolute;
@@ -5,4 +19,38 @@
     border: 30px solid  #5d1c06;
     margin-right:5%;
 
+}
+#naveg_2{
+    margin-left:50%;
+    font-size: 25px;
+    float:none;
+    margin-top:-90px;
+
+
+}
+
+
+#naveg{
+    text-decoration: none;
+    color:#5d1c06;
+    font-family: 'Font_Nav';
+	  padding: 10px;
+
+
+}
+#naveg:hover {
+    background-color: #5d1c06;
+    color:#fff;
+    padding: 20px;
+    float:none;
+    font-family: 'Font_Nav';
+    font-size: 30px;
+
+
+
+}
+.logo{
+  margin-bottom: 50px;
+  position: relative;
+  width: 50%;
 }
