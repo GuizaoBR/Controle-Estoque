@@ -185,8 +185,8 @@ db.define_table('EntradaProdutoEstoque',
 db.define_table('Kits',
                 Field('Nome'),
                 Field('ID_EntradaProdutoEstoque', 'list:reference EntradaProdutoEstoque'),
-                Field('QuantidadeProdutos', type='list:integer'),
-                Field('QuantidadeKits', type='integer')
+                Field('QuantidadeProdutos', type='list:integer',label="Quantidade de Produtos"),
+                Field('QuantidadeKits', type='integer', label="Quantidade de Kits")
                 )
 
 db.define_table('SaidaProdutoEstoque',

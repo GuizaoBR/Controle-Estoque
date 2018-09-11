@@ -47,7 +47,7 @@ def arquivo(form):
     db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque.requires =  IS_IN_DB(db, db.EntradaProdutoEstoque,
                                                                         lambda r: '%s - %s' % (r.Lote, r.ID_Produto.ProdutoDescricao))
 
-    arquivo = open("relatorio.txt", "w")
+    arquivo = open("relatorio.xlsx", "w")
     arquivo.write("Produto " + "Data " + "Custo Unidade " + "Quantidade \n")
 
     for x in relat:
@@ -153,7 +153,7 @@ def relatorio():
 
 def cadProdutos():
     cadP=  SQLFORM(db.Produto)
-    
+
 
     if cadP.process().accepted:
         redirect(URL())
