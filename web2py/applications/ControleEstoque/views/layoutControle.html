@@ -27,13 +27,28 @@
                             <!-- BARRA DE NAVEGAÇÃO / MENU -->
     <nav id="naveg_2">
         <ul>
-            <a id="naveg" href="{{=URL('index')}}">Controle de Validade</a>
-            <a id="naveg"href="{{=URL('cadKits')}}">Cadastro Kits</a>
+          {{if URL(args=request.args) == URL('index'):}}
+            <a id="naveg" class="" href="{{=URL('index')}}">Controle de Validade</a>
+            <a id="naveg" href="{{=URL('cadKits')}}">Cadastro Kits</a>
             <a id="naveg" href="{{=URL('kits')}}">Kits</a>
             <a id="naveg" href="{{=URL('relatorio')}}">Relatorio</a>
             <a id="naveg" href="{{=URL('cadProdutos')}}">Cadastro Produtos</a>
-
+          {{elif URL(args=request.args) == URL('cadKits'):}}
+            <a id="naveg" href="{{=URL('index')}}">Controle de Validade</a>
+            <a id="naveg" class="" href="{{=URL('cadKits')}}">Cadastro Kits</a>
+            <a id="naveg" href="{{=URL('kits')}}">Kits</a>
+            <a id="naveg" href="{{=URL('relatorio')}}">Relatorio</a>
+            <a id="naveg" href="{{=URL('cadProdutos')}}">Cadastro Produtos</a>
         </ul>
+        {{else: }}
+          <a id="naveg" href="{{=URL('index')}}">Controle de Validade</a>
+          <a id="naveg" href="{{=URL('cadKits')}}">Cadastro Kits</a>
+          <a id="naveg" href="{{=URL('kits')}}">Kits</a>
+          <a id="naveg" href="{{=URL('relatorio')}}">Relatorio</a>
+          <a id="naveg" href="{{=URL('cadProdutos')}}">Cadastro Produtos</a>
+    </ul>
+    {{pass}}
+
     </nav>
     <div class="marrom_C">
 {{block conteudo}}

@@ -11,18 +11,13 @@
 {{block conteudo}}
 <center>
   <h1>Relátorio</h1>
-  <form action="#" enctype="multipart/form-data" method="post" class="flex">
-      {{=relatorio.custom.begin}}
+  <form action="" enctype="multipart/form-data" method="post" class="flex">
         <label id="Inicial" for="no_table_dataInicial">Data Inicial</label>
         <label id="Final" for="no_table_dataFinal"> Data Final</label>
-        {{=relatorio.custom.widget.dataInicial}}
-        {{=relatorio.custom.widget.dataFinal}}
-        <div class="mover">
-          <input type="submit" value="Gerar">
-        </div>
-      {{=relatorio.custom.end}}
-
+        {{=relatorio}}
   </form>
+        {{=relat}}
+
 </center>
 
 {{end conteudo}}

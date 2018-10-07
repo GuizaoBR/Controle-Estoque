@@ -164,8 +164,11 @@ db.define_table('Produto',
                 Field('CodigoBarras', type='integer'),
                 Field('CodigoCacauShow', type='integer'),
                 Field('CustoUnitario', type='double'),
-                Field('QuantidadeMinima', type='integer'),
+                Field('QuantidadeMinimaGramas', type='double'),
+                Field('QuantidadeMinimaUnidade', type='integer'),
                 Field('ProdutoDescricao', type='string', label='Produto'),
+                Field("Quantidade", type="integer"),
+                redefine=True,
                 format='%(ProdutoDescricao)s'
                 )
 
@@ -174,9 +177,10 @@ db.define_table('EntradaProdutoEstoque',
                 Field('Ativo', type='boolean', default=True),
                 Field('Validade', type='date'),
                 Field('Data', type='date' ),
-                Field('Quantidade', type='integer'),
+                Field('Quantidade', type='double'),
                 Field('DataDesativacao',type='date'),
                 Field('Lote'),
+                redefine=True,
                 format='%(Lote)s' + ' - ' + '%(ID_Produto)s'
                 )
 
@@ -193,13 +197,15 @@ db.define_table('SaidaProdutoEstoque',
                 Field('ID_EntradaProdutoEstoque', 'reference EntradaProdutoEstoque'),
                 Field('CustoUnitario', type='double'),
                 Field('Data', type='date'),
-                Field('Quantidade', type='integer')
+                Field('Quantidade', type='double')
                 )
 
 
 
 
 
+
+db.Produto.QuantidadeMinimaGramas.show_if = (db.Produto.ID_TipoUnidade == 2)
 
 #Obrigatorios
 db.EntradaProdutoEstoque.ID_Produto.requires = IS_NOT_EMPTY(error_message="Selecione um Produto")
@@ -215,8 +221,6 @@ db.EntradaProdutoEstoque.Lote.requires = IS_NOT_IN_DB(db, 'EntradaProdutoEstoque
 db.Produto.ID_TipoUnidade.requires = IS_IN_DB(db, db.TipoUnidade, db.TipoUnidade._format)
 db.EntradaProdutoEstoque.ID_Produto.requires = IS_IN_DB(db, db.Produto, db.Produto._format)
 
-db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque.requires = IS_IN_DB(db(db.EntradaProdutoEstoque.Ativo == True), db.EntradaProdutoEstoque,
-                                                                    lambda r: '%s - %s' % (r.Lote, r.ID_Produto.ProdutoDescricao))
 #db.SaidaProdutoEstoque.ID_Kits.requires = IS_IN_DB(db, db.Kits, db.Kits.Nome)
 
 db.Kits.ID_EntradaProdutoEstoque.requires = IS_IN_DB(db(db.EntradaProdutoEstoque.Ativo == True), db.EntradaProdutoEstoque,
@@ -224,6 +228,7 @@ db.Kits.ID_EntradaProdutoEstoque.requires = IS_IN_DB(db(db.EntradaProdutoEstoque
 
 
 
+#db(db.Produto.id == db.EntradaProdutoEstoque.ID_Produto).update(Quantidade = db.EntradaProdutoEstoque.Quantidade)
 
 #Deixa a data no formato dd/mm/aaaa
 db.EntradaProdutoEstoque.Validade.requires = IS_DATE(format=T('%d/%m/%Y'))
