@@ -1,0 +1,40 @@
+@font-face{
+    font-family: 'Font_Nav';
+    src: url("../fonts/tartinescriptregular.ttf");
+}
+
+@font-face{
+
+	font-family: 'Font_Prod';
+    src: url("../fonts/CANDARA.TTF");
+}
+
+body{
+    background-image: url('../imagens/CacauBack.png') ;
+
+
+}
+/*
+                    MENU
+*/
+.BarraNav{
+    font-family: 'Font_Nav';
+    font-size: 30px;
+    margin-left: 35%;
+    text-decoration: none;
+    border-radius:10px;
+    position: relative;
+    margin-top: -150px;
+    width: 60%;
+}
+a{
+    text-decoration: none;
+    color: #522916f5;
+    padding: 15px;
+    height: 100px;
+    font-style: normal;}
+
+#nav a:hover{
+    color: #75402880;
+    transition: 400ms;
+}

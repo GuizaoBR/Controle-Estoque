@@ -235,12 +235,11 @@ db.EntradaProdutoEstoque.Validade.requires = IS_DATE(format=T('%d/%m/%Y'))
 db.SaidaProdutoEstoque.Data.requires = IS_DATE(format=T('%d/%m/%Y'))
 db.EntradaProdutoEstoque.DataDesativacao.requires = IS_DATE(format=T('%d/%m/%Y'))
 
-db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque.widget = lambda field,value:     SQLFORM.widgets.options.widget(field,value,_class="form-control")
 
 
 
 #Estilisa os widgets do SQLFORM
-db.EntradaProdutoEstoque.ID_Produto.widget = lambda field,value:     SQLFORM.widgets.options.widget(field,value,_class="form-control")
+db.EntradaProdutoEstoque.ID_Produto.widget = SQLFORM.widgets.autocomplete(request, db.Produto.ProdutoDescricao,id_field=db.Produto.id)
 
 #db.EntradaProdutoEstoque.ID_Produto.widget = SQLFORM.widgets.autocomplete(request, db.Produto.ProdutoDescricao)
 db.EntradaProdutoEstoque.Lote.widget = lambda field,value:     SQLFORM.widgets.integer.widget(field,value,_placeholder="Lote",_class="form-control")
@@ -250,7 +249,8 @@ db.Kits.Nome.widget = lambda field,value:     SQLFORM.widgets.string.widget(fiel
 db.Kits.QuantidadeKits.widget = lambda field,value:     SQLFORM.widgets.integer.widget(field,value,_placeholder='Quantidade Kits',_class="login")
 db.Kits.ID_EntradaProdutoEstoque.widget = lambda field,value:     SQLFORM.widgets.options.widget(field,value,_class="produto")
 db.Kits.QuantidadeProdutos.widget = lambda field,value:     SQLFORM.widgets.integer.widget(field,value,_placeholder='Quantidade Produtos',_class="integer login")
-
+db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque.widget = lambda field,value:     SQLFORM.widgets.options.widget(field,value,_class="form-control")
+db.Produto.CustoUnitario.widget = lambda field,value:     SQLFORM.widgets.double.widget(field,value,_class="form-control", _id="precoUni")
 
 
 from datetime import date

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{{include 'web2py_ajax.html'}}
+<html lang="pt-br">
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+    <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+    <script type="text/javascript" src="{{=URL('static','js/jquery.mask.js')}}"></script>
+    <link href="{{=URL('static','css/calendar.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{=URL('static','css/web2py.css')}}" rel="stylesheet" type="text/css"/>
+    <link type="text/css" rel="stylesheet"href="{{=URL('static','css/padrao_Nav.css')}}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <title>Cacau Show</title>
+
+    {{block head}}
+    {{end head}}
+</head>
+<body>
+    <div class="logo">
+        <a href="{{=URL('index')}}">
+            <img src="{{=URL('static','imagens/logo.png')}}" width="170" height="150">
+        </a>
+        <nav class="BarraNav">
+            <ul id="nav">
+                <a href="{{=URL('index')}}">Controle de Estoque</a>
+                <a href="kit.html">Kits</a>
+                <a href="{{=URL('cadProdutos')}}">Cadastro de Novos Produtos</a>
+            </ul>
+        </nav>
+    </div>
+    {{block conteudo}}
+    {{end conteudo}}
+
+
+
+ <script type="text/javascript" src="((=URL('static',js/script.js)}}"></script>
+ {{block script}}
+ {{end script}}
+</body>
+</html>

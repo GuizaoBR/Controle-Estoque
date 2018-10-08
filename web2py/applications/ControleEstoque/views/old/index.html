@@ -1,0 +1,88 @@
+{{extend 'layoutControle.html'}}
+
+{{block head}}
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css/teste.css')}}"/>
+{{end block}}
+
+{{block conteudo}}
+
+<center>
+  {{=tabela}}
+
+</center>
+
+<!--<form action=""  enctype="multipart/form-data" method="post">-->
+
+  <button id="modalBtnEX" class="botaoEX">-</button>
+      <div id="ModalEX" class="pop-upEX">
+        <form action="#" enctype="multipart/form-data" method="post">
+          <div class="pop-up-contentEX">
+              <span class="fecharBtnEX">&times;</span>
+              <h3><center>SAÍDA DE PRODUTOS <i class="fas fa-trash-alt" id="lixeira"></i> </center></h3>
+              <div class="cadastro_FormEX">
+                  <fieldset id="Desc_EX">
+                      PRODUTO
+                      Custo
+                      Data
+                      QUANTIDADE
+                      </fieldset><br>
+                      <fieldset id="inputs">
+                        <!--{{=saida}}-->
+                        {{=saida.custom.begin}}
+                          {{=saida.custom.widget.ID_EntradaProdutoEstoque}}
+                          {{=saida.custom.widget.CustoUnitario}}
+                          {{=saida.custom.widget.Data}}
+                          {{=saida.custom.widget.Quantidade}}
+                        {{=saida.custom.end}}
+                      </fieldset>
+                      <button type="submit" id='exluir_Produto'>Retirar</button>
+                      <button type="reset" id='cancelaEX'>CANCELAR</button>
+              </div>
+          </div>
+        </form>
+      </div>
+      <button id="modalBtn" class="botao">+</button>
+      <div id="Modal" class="pop-up">
+        <form action="#" enctype="multipart/form-data" method="post">
+          <div class="pop-up-content">
+              <span class="fecharBtn">&times;</span>
+              <h3><center>Entrada De Produtos</center></h3>
+              <div class="cadastro_Form">
+                  <fieldset id="Desc_Cad">
+                  PRODUTO
+                  LOTE
+                  VALIDADE
+                  QUANTIDADE
+                  </fieldset><br>
+                  <fieldset>
+                    {{=entradaProdutos.custom.begin}}
+                      {{=entradaProdutos.custom.widget.ID_Produto}}
+                      {{=entradaProdutos.custom.widget.Lote}}
+                      {{=entradaProdutos.custom.widget.Validade}}
+                      {{=entradaProdutos.custom.widget.Quantidade}}
+                    {{=entradaProdutos.custom.end}}
+                    {{if entradaProdutos.errors:}}
+                      <div class="erros">
+                        <div class="error" id="Produto">{{=entradaProdutos.errors.ID_Produto}}</div>
+                        <div class="error" id="Lote">{{=entradaProdutos.errors.Lote}}</div>
+                        <div class="error" id="Validade">{{=entradaProdutos.errors.Validade}}</div>
+                        <div class="error" id="Quantidade">{{=entradaProdutos.errors.Quantidade}}</div>
+                      </div>
+                    {{pass}}
+                  </fieldset>
+                  <div class="botoes">
+                    <button type="submit" onclick="formSubmit()">CADASTRAR</button>
+                    <button type="reset" id='cancelaCad'>CANCELAR</button>
+                  </div>
+              </div>
+         </div>
+       </form>
+      </div>
+<!--</form>-->
+
+{{end block}}
+
+
+{{block script}}
+<script src="{{=URL('static','js/script.js')}}"></script>
+{{end script}}

@@ -1,21 +1,19 @@
-{{extend 'master.html'}}
+{{extend 'layoutControle.html'}}
 
 {{block head}}
-<link type="text/css" rel="stylesheet" href="{{=URL('static','css/cadastro.css')}}"/>
-<script>
-     $/*(document).ready(function(){
-         $('#precoUni').mask('R$ 000.00');
-
-     })*/
-     </script>
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css_old/estilo.css')}}"/>
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css_old/cadastro.css')}}"/>
 {{end block}}
 
 {{block conteudo}}
-
-<div class="newProd">
+<center>
+<div id="tabela">
                             <!--TABELA DE CADASTRO DE NOVOS PRODUTOS -->
+    <title>Cadastro de Novos Produtos</title>
     <form action="#" enctype="multipart/form-data" method="post">
-            <center><table id="TbkProduto">
+            <table>
+                    <p>CADASTRO DE NOVOS PRODUTOS</p>
+
             <tr>
                 <th> PRODUTO </th>
                 <th> PREÇO </th>
@@ -29,6 +27,8 @@
                 <td title="Selecione a unidade de medida do novo produto">{{=cadP.custom.widget.ID_TipoUnidade}}</td>
             </tr>
 
+            </table>
+            <table>
                 <tr>
                     <th> CÓDIGO DE BARRAS </th>
                     <th> CÓDIGO CACAU SHOW </th>
@@ -41,11 +41,13 @@
                 </tr>
 
 
-            </table></center>
-            <button type="submit" id="EnviaCad"><i class="far fa-check-circle"></i></button>
-            <button type="reset" id='cancelaCad'><i class="far fa-times-circle"></i></button>
+            </table>
+            <div id="botoes">
+              <input  id="SavCad" type="submit" value="Adicionar"></br>
+            </div>
             {{=cadP.custom.end}}
           </form>
         </div>
     </div>
+  </center>
 {{end conteudo}}

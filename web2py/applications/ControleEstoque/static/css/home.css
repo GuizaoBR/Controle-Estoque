@@ -1,0 +1,261 @@
+/*
+                    TABELA DE PRODUTOS
+*/
+@font-face{
+
+	font-family: 'Font_Prod';
+    src: url("../fonts/CANDARA.TTF");
+  }
+#TblProduto{
+    background-color: #0000008a;
+    color: #ffffff;
+    text-align: center;
+    font-family: 'Font_Prod';
+    font-size:20px;
+    margin-top: 130px;
+    width: 85%;
+    margin-left: 120px;
+    border-collapse: collapse;
+    border-radius: 20px;
+
+}
+tr:nth-child(even) {
+    background-color: #dddddd57;
+
+}
+
+
+/*
+					Modal
+*/
+
+.modal, .modalEx{
+  display:none;
+  position: fixed;
+  z-index:1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width:100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content, .modal-contentEx{
+  background-color: #8b8f81cc;
+  position: relative;
+  margin: 15% auto;
+  width:70%;
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 7px 20px 0 rgba(0,0,0,0.17);
+  animation-name:modalopen;
+  animation-duration:1s;
+
+}
+
+.modal-header h2, .modal-headerEx h2{
+  margin:0;
+  font-family: 'Font_Prod';
+  font-style: bold;
+  text-align: center;
+  color: #000000;
+
+}
+
+.modal-header,.modal-headerEx{
+  background:rgba(255, 255, 255, 0.589);
+  padding:15px;
+  color:rgb(0, 0, 0);
+  height: 100%;
+}
+
+.modal-body, .modalEx-body{
+  padding:10px 20px;
+}
+
+.modal-footer,.modalEx-footer{
+  padding:10px;
+
+}
+
+.closeBtn, .closeBtnEx{
+  position: relative;
+  left: 9px;
+  bottom: 45px;
+  float: right;
+  font-size:30px;
+  color:#fff;
+}
+
+.closeBtn:hover, .closeBtn:focus, .closeBtnEx:hover, .closeBtnEx:focus{
+  color:#000;
+  text-decoration: none;
+  cursor:pointer;
+}
+#Desc_Cad, #Desc_eX{
+  position: relative;
+  font-family: 'Font_Prod';
+  top: 2%;
+  width: 97%;
+  text-align: center;
+  word-spacing: 170px;
+  font-weight: bold;
+}
+#inputs, #inputs-eX{
+  position: relative;
+  bottom: 2%;
+  word-spacing: 45px;
+  height: 54px;
+  color: rgb(246, 246, 246);
+
+}
+
+
+
+
+select{
+	position: relative;
+	top: 17px;
+	left: 19px;
+	text-align: center;
+	background-color: rgb(246, 246, 246);
+	border: none;
+	color: rgba(2, 0, 0, 0.767);
+	font-family: 'Font_Prod';
+	font-size: 15px;
+	height: 20px;
+	outline: none;
+	width: 171px;
+
+
+}
+
+input[type='text']{
+    position: relative;
+    top: 17px;
+    left: 19px;
+    text-align: center;
+    background-color: rgb(246, 246, 246);
+    border: none;
+    color: rgba(2, 0, 0, 0.767);
+    font-family: 'Font_Prod';
+    font-size: 15px;
+    height: 20px;
+    outline: none;
+  }
+
+
+	input[type='date']{
+	    position: relative;
+	    top: 17px;
+	    left: 19px;
+	    text-align: center;
+	    background-color: rgb(246, 246, 246);
+	    border: none;
+	    color: rgba(2, 0, 0, 0.767);
+	    font-family: 'Font_Prod';
+	    font-size: 15px;
+	    height: 20px;
+	    outline: none;
+	  }
+  ::-webkit-input-placeholder {
+    color: rgba(2, 0, 0, 0.397);
+  }
+
+  :-moz-placeholder {
+    color: rgba(2, 0, 0, 0.397);
+  }
+
+  ::-moz-placeholder {
+    color: rgba(2, 0, 0, 0.397);
+  }
+
+  :-ms-input-placeholder {
+    color: rgba(2, 0, 0, 0.397);
+  }
+#qtd{
+  left:22px;
+
+}
+.modal-header button, .modal-headerEx button{
+  margin: 27px 64px 0 260px;
+  font-size: 40px;
+  border-radius: 36px;
+  outline: none;
+  color: #0080008c;
+  border: none ;
+  background-color:rgba(255, 255, 255, 0.034);
+  cursor: pointer;
+}
+.modal-header button:hover, .modal-headerEx button:hover{
+  color: green;
+}
+#cancelaCad, #cancelaCadEx{
+  color: rgba(180, 18, 18, 0.51);
+
+}
+#cancelaCad:hover, #cancelaCadEx:hover{
+  color: red;
+
+}
+@keyframes modalopen{
+  from{ opacity: 0}
+  to {opacity: 1}
+}
+
+/*
+-------------------------------------------------------------------------------------------
+*/
+/*
+                                BOT�O FLUTUANTE CADASTRO
+*/
+#Btn-Estoque{
+    background-color: Black;
+    padding: 1em 2em;
+    color: #ffff;
+    border: 0;
+    border-radius: 100%;
+    position: fixed;
+    bottom: 10px;
+    left: 3%;
+    width: 60px;
+    height: 60px;;
+    box-shadow: 0 7px 20px 0 rgba(0 , 0 , 0 ,0.9),0 7px 20px 0 rgba(0 , 0 , 0 ,0.17);
+    font-size: 35px;
+    line-height: 11px;
+    padding: 0;
+    outline: 0;
+    cursor: pointer;
+    transition: 325ms;
+}
+
+#Btn-Estoque:hover{
+    background: #00FF00;
+}
+/*
+-------------------------------------------------------------------------------------------
+/*
+                                BOT�O FLUTUANTE EXCLUS�O
+*/
+#Btn_EstoqueEX{
+    background-color: black;
+    padding: 1em 2em;
+    color: #ffff;
+    border: 0;
+    border-radius: 100%;
+    position: fixed;
+    bottom: 10px;
+    right: 3%;
+    width: 60px;
+    height: 60px;;
+    box-shadow: 0 7px 20px 0 rgba(0 , 0 , 0 ,0.9),0 7px 20px 0 rgba(0 , 0 , 0 ,0.17);
+    font-size: 35px;
+    line-height: 11px;
+    padding: 0;
+    outline: 0;
+    cursor: pointer;
+    transition: 325ms;
+}
+
+#Btn_EstoqueEX:hover{
+    background: red;
+}

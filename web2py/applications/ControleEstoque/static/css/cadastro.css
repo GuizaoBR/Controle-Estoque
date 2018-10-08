@@ -1,40 +1,80 @@
 @font-face{
-    font-family: 'Font_Nav';
-    src: url("../fontes/tartinescriptregular.ttf");
-}
-@font-face{
 
 	font-family: 'Font_Prod';
-    src: url("../fontes/CANDARA.ttf");
+    src: url("../fonts/CANDARA.TTF");
+  }
+
+.newProd{
+    position: relative;
+    background-color: rgba(214, 209, 209, 0.753);
+    margin-left: 20%;
+    margin-right: 25%;
+    border-radius: 100px 5px;
+    border-color: rgb(87, 36, 15);
+    border-style: solid;
+    margin-top: 130px;
+		width: 60%
+}
+input{
+    outline: none;
+    font-size: 22px;
+    font-family: 'Font_Prod';
+    font-style: bold;
+    color: rgb(119, 46, 14);
+}
+select{
+	position: relative;
+	text-align: center;
+	background-color: rgb(246, 246, 246);
+	border: none;
+	color: rgba(2, 0, 0, 0.767);
+	font-family: 'Font_Prod';
+	font-size: 22px;
+	height: 30px;
+	outline: none;
+	width: 250px;
+
 
 }
-p {
-    font-family: 'Font_Prod';
-    font-size: 30px;
-    color: #ffffff;
+
+#TblProduto{
+
+    color: #000000;
     text-align: center;
-    font-weight: bold;
-}
-
-tr th{
-    color: #ffffff;
     font-family: 'Font_Prod';
-    margin-left: 50px;
+    font-size:20px;
+
+    width: 100%;
+
 
 }
-table{
-   margin-left: 25%;
-   padding: 05%;
-   margin-top: -20px;
-   margin-right: 25%;
+tr{
+    height: 50px;
 }
+button{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+    outline: none;
+    border: none ;
+    background-color:rgba(255, 255, 255, 0.034);
+    cursor: pointer;
 
-#SavCad{
-   font-family: 'Font_Prod';
-   font-size: 20px;
-   font-weight: bold;
-   margin-left: 25%;
-   margin-right: 25%;
-   outline: 0;
+}
+#EnviaCad{
+    color: #0080008c;
+    margin-left: 33% ;
+}
+#EnviaCad:hover{
+    color: green;
 
+}
+#cancelaCad{
+    color: rgba(180, 18, 18, 0.51);
+    margin-left: 200px ;
+}
+#cancelaCad:hover{
+    color: red;
 }

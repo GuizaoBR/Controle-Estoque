@@ -35,33 +35,7 @@ def kitsVer(form):
             else:
                 verifica.update(Quantidade = db.EntradaProdutoEstoque.Quantidade - produtos)
                 tamLista -= 1
-'''
-def arquivo(form):
-    ini = form.vars.dataInicial
-    fim = form.vars.dataFinal
 
-    relatSaida = db((db.SaidaProdutoEstoque.Data >= ini) & (db.SaidaProdutoEstoque.Data <= fim)).select(
-        db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque, db.SaidaProdutoEstoque.CustoUnitario,
-        db.SaidaProdutoEstoque.Data, db.SaidaProdutoEstoque.Quantidade,
-        join=db.EntradaProdutoEstoque.on(db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque == db.EntradaProdutoEstoque.id)
-    )
-    relatEntrada = db((db.EntradaProdutoEstoque.Data >= inicio) & (db.EntradaProdutoEstoque.Data <= fim)).select(
-        db.EntradaProdutoEstoque.ID_Produto, db.EntradaProdutoEstoque.Data,
-        db.EntradaProdutoEstoque.Quantidade, db.EntradaProdutoEstoque.Lote,
-        join=db.Produto.on(db.EntradaProdutoEstoque.ID_Produto == db.Produto.id))
-    arquivo = open("relatorio.xlsx", "w")
-    arquivo.write("Produto " + "Data " + "Custo Unidade " + "Quantidade \n")
-
-
-    for produtoEntrada in relatEntrada:
-        for produtoSaida in relatSaida:
-            arquivo.write(str(produtoEntrada.ID_Produto) + ";" + str(produtoEntrada.Data) + ";" + ";" + "Entrada;" + str(produtoEntrada.Lote) +
-                          ";" + str(produtoEntrada.Quantidade)+"\n")
-            arquivo.write(str(produtoSaida.ID_EntradaProdutoEstoque) +";"+ str(produtoSaida.Data) + ";" + str(produtoSaida.CustoUnitario) + "Saida;" + ";" +
-                          str(produtoSaida.Quantidade)+"\n")
-
-    arquivo.close()
-'''
 
 
 def index():
@@ -77,6 +51,11 @@ def index():
     '''
 
     #Tabela mostrando os produtos
+    Tabela2 = db(db.EntradaProdutoEstoque.Ativo == True).select(db.Produto.ProdutoDescricao, db.EntradaProdutoEstoque.Lote,
+                                                                db.EntradaProdutoEstoque.Validade, db.EntradaProdutoEstoque.Quantidade,
+                                                                join=db.Produto.on(db.EntradaProdutoEstoque.ID_Produto == db.Produto.id),
+                                                                orderby=db.EntradaProdutoEstoque.Validade)
+    '''
     Tabela = SQLFORM.grid(db.EntradaProdutoEstoque.Ativo==True,
                      sortable=False,details=False,searchable=False,
                      paginate=7, links_in_grid=False, _class="",create=False,csv=False,
@@ -84,14 +63,11 @@ def index():
                                db.EntradaProdutoEstoque.Quantidade],
                      left=db.Produto.on(db.EntradaProdutoEstoque.ID_Produto == db.Produto.id),
                      orderby=db.EntradaProdutoEstoque.Validade)
-
+    Tabela.element("table")["_id"] = "TblProduto"
+    Tabela.element("th")["_id"] = "DescCamp"
+    Tabela.element("td")["_id"] = "DescProd"
+    Tabela.element('.web2py_counter', replace=None)
     '''
-    Tabela = db(db.EntradaProdutoEstoque.Ativo==True).select(db.Produto.ProdutoDescricao, db.EntradaProdutoEstoque.Lote,
-                                                             db.EntradaProdutoEstoque.Validade, db.EntradaProdutoEstoque.Quantidade,
-                                                             join=db.EntradaProdutoEstoque.on(db.Produto.id == db.EntradaProdutoEstoque.ID_Produto))
-
-    '''
-
 
     #Formulário para dar entrada nos Produtos no estoque
     EntradaProdutos = SQLFORM(db.EntradaProdutoEstoque, buttons=[],
@@ -121,7 +97,7 @@ def index():
     else:
         response.flash = 'please fill out the form'
 
-    return dict(tabela=Tabela, entradaProdutos=EntradaProdutos, saida=SaidaP)
+    return dict(tabela=Tabela2, entradaProdutos=EntradaProdutos, saida=SaidaP)
 
 
 
@@ -149,8 +125,8 @@ def kits():
 
 def relatorio():
     relatorio = FORM(
-        INPUT(_name="dataInicial", _type="text", _class="date form-control"),
-        INPUT(_name="dataFinal", _type="text", _class="date form-control"),
+        INPUT(_name="dataInicial", _type="date", _class=""),
+        INPUT(_name="dataFinal", _type="date", _class=""),
         INPUT(_type="submit", _value="Gerar")
     )
 
