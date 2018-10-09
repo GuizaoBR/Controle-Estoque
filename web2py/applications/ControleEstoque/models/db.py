@@ -164,8 +164,7 @@ db.define_table('Produto',
                 Field('CodigoBarras', type='integer'),
                 Field('CodigoCacauShow', type='integer'),
                 Field('CustoUnitario', type='double'),
-                Field('QuantidadeMinimaGramas', type='double'),
-                Field('QuantidadeMinimaUnidade', type='integer'),
+                Field('QuantidadeMinima', type='double'),
                 Field('ProdutoDescricao', type='string', label='Produto'),
                 Field("Quantidade", type="integer"),
                 redefine=True,
@@ -205,7 +204,7 @@ db.define_table('SaidaProdutoEstoque',
 
 
 
-db.Produto.QuantidadeMinimaGramas.show_if = (db.Produto.ID_TipoUnidade == 2)
+#db.Produto.QuantidadeMinimaGramas.show_if = (db.Produto.ID_TipoUnidade == 2)
 
 #Obrigatorios
 db.EntradaProdutoEstoque.ID_Produto.requires = IS_NOT_EMPTY(error_message="Selecione um Produto")

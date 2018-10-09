@@ -37,6 +37,9 @@ def kitsVer(form):
                 tamLista -= 1
 
 
+def cadPVer(form):
+    pass
+
 
 def index():
 
@@ -228,7 +231,7 @@ def cadProdutos():
     cadP=  SQLFORM(db.Produto)
 
 
-    if cadP.process().accepted:
+    if cadP.process(onvalidation=cadPVer).accepted:
         redirect(URL())
         response.flash = "Salvo"
     elif cadP.errors:

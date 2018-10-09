@@ -3,11 +3,18 @@
 {{block head}}
 <link type="text/css" rel="stylesheet" href="{{=URL('static','css/cadastro.css')}}"/>
 <script>
-     $/*(document).ready(function(){
-         $('#precoUni').mask('R$ 000.00');
+     $(document).ready(function(){
+         /*$('#precoUni').mask("R$ #00,00", {reverse: true});*/
+         $("#precoUni").maskMoney({
+              prefix: "R$",
+              decimal: ".",
+              thousands: "",
+              affixesStay: false
+            });
 
-     })*/
-     </script>
+     })
+
+    </script>
 {{end block}}
 
 {{block conteudo}}
@@ -37,7 +44,7 @@
                 <tr>
                     <td title="Digíte o código de Barras">{{=cadP.custom.widget.CodigoBarras}}</td>
                     <td title="Digíte o código da Cacau Show">{{=cadP.custom.widget.CodigoCacauShow}}</td>
-                    <td title="Quantidade minima para aviso reposição no estoque">{{=cadP.custom.widget.QuantidadeMinimaGramas}}</td>
+                    <td title="Quantidade minima para aviso reposição no estoque">{{=cadP.custom.widget.QuantidadeMinima}}</td>
                 </tr>
 
 
@@ -48,4 +55,7 @@
           </form>
         </div>
     </div>
-{{end conteudo}}
+    {{end conteudo}}
+    {{block script}}
+
+    {{end script}}
