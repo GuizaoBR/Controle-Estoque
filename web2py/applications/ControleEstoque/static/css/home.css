@@ -103,9 +103,15 @@ tr:nth-child(even) {
 #inputs, #inputs-eX{
   position: relative;
   bottom: 2%;
-  word-spacing: 45px;
-  height: 54px;
+  /*word-spacing: 45px;*/
+  height: 54px auto;
   color: rgb(246, 246, 246);
+
+}
+
+#inputs > input, #inputs-eX > input, select{
+	margin-left: 1%;
+  margin-right: 5%;
 
 }
 
@@ -114,7 +120,7 @@ tr:nth-child(even) {
 
 select{
 	position: relative;
-	top: 17px;
+	top: 17px auto;
 	left: 19px;
 	text-align: center;
 	background-color: rgb(246, 246, 246);
@@ -131,8 +137,8 @@ select{
 
 input[type='text']{
     position: relative;
-    top: 17px;
     left: 19px;
+		top: 17px auto;
     text-align: center;
     background-color: rgb(246, 246, 246);
     border: none;
@@ -258,4 +264,14 @@ input[type='text']{
 
 #Btn_EstoqueEX:hover{
     background: red;
+}
+
+.error{
+	padding: 5px;
+	display: flex;
+	text-align: center;
+}
+
+.erro{
+	flex-basis: 25%
 }

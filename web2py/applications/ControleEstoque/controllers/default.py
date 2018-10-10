@@ -82,7 +82,7 @@ def index():
     #db.SaidaProdutoEstoque.ID_Kits.show_if = (db.SaidaProdutoEstoque.Eh_Kit == True)
     #db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque.show_if = (db.SaidaProdutoEstoque.Eh_Kit == False)
 
-    SaidaP = SQLFORM(db.SaidaProdutoEstoque)
+    SaidaP = SQLFORM(db.SaidaProdutoEstoque,hideerror=True)
 
     if SaidaP.process(onvalidation=saidaValida).accepted:
         redirect(URL("index"))

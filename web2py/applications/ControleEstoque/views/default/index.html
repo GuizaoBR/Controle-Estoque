@@ -56,11 +56,11 @@
                           {{=entradaProdutos.custom.widget.Quantidade}}
                         {{=entradaProdutos.custom.end}}
                         {{if entradaProdutos.errors:}}
-                          <div class="erros">
-                            <div class="error" id="Produto">{{=entradaProdutos.errors.ID_Produto}}</div>
-                            <div class="error" id="Lote">{{=entradaProdutos.errors.Lote}}</div>
-                            <div class="error" id="Validade">{{=entradaProdutos.errors.Validade}}</div>
-                            <div class="error" id="Quantidade">{{=entradaProdutos.errors.Quantidade}}</div>
+                          <div class="error">
+                          <div class="erro">{{=entradaProdutos.errors.ID_Produto}}</div>
+                            <div class="erro">{{=entradaProdutos.errors.Lote}}</div>
+                            <div class="erro">{{=entradaProdutos.errors.Validade}}</div>
+                            <div class="erro">{{=entradaProdutos.errors.Quantidade}}</div>
                           </div>
                         {{pass}}
                       </fieldset>
@@ -94,7 +94,16 @@
                       {{=saida.custom.widget.Data}}
                       {{=saida.custom.widget.Quantidade}}
                     {{=saida.custom.end}}
+                    {{if saida.errors:}}
+                      <div class="error">
+                      <div class="erro">{{=saida.errors.ID_EntradaProdutoEstoque}}</div>
+                        <div class="erro">{{=saida.errors.CustoUnitario}}</div>
+                        <div class="erro">{{=saida.errors.Data}}</div>
+                        <div class="erro">{{=saida.errors.Quantidade}}</div>
+                      </div>
+                    {{pass}}
                   </fieldset>
+
                   <button type="submit"><i class="far fa-check-circle"></i></button>
                   <button type="reset" id='cancelaCadEx'><i class="far fa-times-circle"></i></button>
                   </div>
