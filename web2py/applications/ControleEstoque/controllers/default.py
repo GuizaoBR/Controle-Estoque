@@ -54,9 +54,10 @@ def index():
     '''
 
     #Tabela mostrando os produtos
-    Tabela2 = db(db.EntradaProdutoEstoque.Ativo == True).select(db.Produto.ProdutoDescricao, db.EntradaProdutoEstoque.Lote,
+    Tabela2 = db(db.EntradaProdutoEstoque.Ativo == True).select(db.Produto.ProdutoDescricao,db.TipoUnidade.TipoUnidadeDescricao, db.EntradaProdutoEstoque.Lote,
                                                                 db.EntradaProdutoEstoque.Validade, db.EntradaProdutoEstoque.Quantidade,
                                                                 join=db.Produto.on(db.EntradaProdutoEstoque.ID_Produto == db.Produto.id),
+                                                                left=db.TipoUnidade.on(db.Produto.ID_TipoUnidade == db.TipoUnidade.id),
                                                                 orderby=db.EntradaProdutoEstoque.Validade)
     '''
     Tabela = SQLFORM.grid(db.EntradaProdutoEstoque.Ativo==True,

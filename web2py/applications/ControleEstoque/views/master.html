@@ -2,20 +2,11 @@
 {{include 'web2py_ajax.html'}}
 <html lang="pt-br">
 <head>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous">
-    </script>
-    <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
-    <script src="{{=URL('static', 'js/jquery.maskMoney.min.js')}}"></script>
     <link href="{{=URL('static','css/calendar.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{=URL('static','css/web2py.css')}}" rel="stylesheet" type="text/css"/>
     <link type="text/css" rel="stylesheet"href="{{=URL('static','css/padrao_Nav.css')}}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <title>Cacau Show</title>
-
     {{block head}}
     {{end head}}
 </head>
@@ -36,7 +27,13 @@
     {{end conteudo}}
 
 
-
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+    <script src="{{=URL('static', 'js/jquery.maskMoney.min.js')}}"></script>
     <script src="{{=URL('static','js/script.js')}}"></script>
  {{block script}}
  {{end script}}

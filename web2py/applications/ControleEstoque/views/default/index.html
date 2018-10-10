@@ -16,7 +16,11 @@
         <tr>
             <td id="DescProd">{{=produto.Produto.ProdutoDescricao}}</td>
             <td id="DescProd">{{=produto.EntradaProdutoEstoque.Lote}}</td>
-            <td id="DescProd">{{=produto.EntradaProdutoEstoque.Quantidade}}</td>
+            {{if produto.TipoUnidade.TipoUnidadeDescricao == "Unidade":}}
+              <td id="DescProd">{{=int(produto.EntradaProdutoEstoque.Quantidade)}} Uni</td>
+            {{else:}}
+              <td id="DescProd">{{=produto.EntradaProdutoEstoque.Quantidade}} g</td>
+            {{pass}}
             <td id="DescProd">{{=produto.EntradaProdutoEstoque.Validade.strftime("%d/%m/%Y")}}</td>
         </tr>
         {{pass}}

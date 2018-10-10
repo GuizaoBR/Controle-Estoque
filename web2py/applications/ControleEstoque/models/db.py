@@ -166,7 +166,6 @@ db.define_table('Produto',
                 Field('CustoUnitario', type='double'),
                 Field('QuantidadeMinima', type='double'),
                 Field('ProdutoDescricao', type='string', label='Produto'),
-                Field("Quantidade", type="integer"),
                 redefine=True,
                 format='%(ProdutoDescricao)s'
                 )
@@ -204,7 +203,6 @@ db.define_table('SaidaProdutoEstoque',
 
 
 
-#db.Produto.QuantidadeMinimaGramas.show_if = (db.Produto.ID_TipoUnidade == 2)
 
 #Obrigatorios
 db.EntradaProdutoEstoque.ID_Produto.requires = IS_NOT_EMPTY(error_message="Selecione um Produto")

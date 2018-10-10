@@ -7,12 +7,17 @@
          /*$('#precoUni').mask("R$ #00,00", {reverse: true});*/
          $("#precoUni").maskMoney({
               prefix: "R$",
-              decimal: ".",
-              thousands: "",
-              affixesStay: false
-            });
+              decimal: ",",
+              thousands: ".",
+              affixesStay: true
+            })
 
-     })
+
+
+
+     });
+
+
 
     </script>
 {{end block}}
@@ -57,5 +62,6 @@
     </div>
     {{end conteudo}}
     {{block script}}
+    <script src="{{=URL('static', 'js/cadastro.js')}}"></script>
 
     {{end script}}

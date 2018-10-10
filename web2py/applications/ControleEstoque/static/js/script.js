@@ -6,6 +6,7 @@ var modalBtn = document.getElementById('Btn-Estoque');
 var closeBtn = document.getElementsByClassName('closeBtn')[0];
 
 
+
 // Listen for open click
 modalBtn.addEventListener('click', openModal);
 // Listen for close click
