@@ -13,7 +13,9 @@
     border-color: rgb(87, 36, 15);
     border-style: solid;
     margin-top: 130px;
-		width: 60%
+		width: 60%;
+		min-width: 783px;
+
 }
 input{
     outline: none;
@@ -43,9 +45,7 @@ select{
     text-align: center;
     font-family: 'Font_Prod';
     font-size:20px;
-
     width: 100%;
-
 
 }
 tr{
@@ -73,7 +73,7 @@ button{
 }
 #cancelaCad{
     color: rgba(180, 18, 18, 0.51);
-    margin-left: 200px ;
+    margin-left: 20% ;
 }
 #cancelaCad:hover{
     color: red;

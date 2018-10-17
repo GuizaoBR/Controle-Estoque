@@ -2,31 +2,14 @@
 
 {{block head}}
 <link type="text/css" rel="stylesheet" href="{{=URL('static','css/cadastro.css')}}"/>
-<script>
-     $(document).ready(function(){
-         /*$('#precoUni').mask("R$ #00,00", {reverse: true});*/
-         $("#precoUni").maskMoney({
-              prefix: "R$",
-              decimal: ",",
-              thousands: ".",
-              affixesStay: true
-            })
 
-
-
-
-     });
-
-
-
-    </script>
 {{end block}}
 
 {{block conteudo}}
 
 <div class="newProd">
                             <!--TABELA DE CADASTRO DE NOVOS PRODUTOS -->
-    <form action="#" enctype="multipart/form-data" method="post">
+    <form id="cadastroProdutos" action="#" enctype="multipart/form-data" method="post">
             <center><table id="TbkProduto">
             <tr>
                 <th> PRODUTO </th>
@@ -60,6 +43,7 @@
           </form>
         </div>
     </div>
+
     {{end conteudo}}
     {{block script}}
     <script src="{{=URL('static', 'js/cadastro.js')}}"></script>

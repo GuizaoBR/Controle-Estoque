@@ -350,6 +350,7 @@
 'Users': 'Users',
 'Validade': 'Validade',
 'Value already in database or empty': 'Valor vazio ou já cadastrado',
+'Value not allowed': 'Value not allowed',
 'Value not in database': 'Valor não encontrado',
 'Verify Password': 'Verify Password',
 'Videos': 'Vídeos',

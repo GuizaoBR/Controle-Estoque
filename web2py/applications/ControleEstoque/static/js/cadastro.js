@@ -15,3 +15,14 @@ $(document).on("click", "#EnviaCad", function() {
   $("#precoUni").val(unmasked);
 
 });
+
+$(document).ready(function(){
+    /*$('#precoUni').mask("R$ #00,00", {reverse: true});*/
+    $("#precoUni").maskMoney({
+         prefix: "R$",
+         decimal: ",",
+         thousands: ".",
+         affixesStay: true
+       })
+
+});

@@ -52,13 +52,52 @@ def index():
                           tsv=False, xml=False, csv_with_hidden_cols=False,
                           tsv_with_hidden_cols=False)
     '''
+    '''
+    if not request.vars.page:
+        redirect(URL(vars={'page':1}))
+    else:
+        page = int(request.vars.page)
+        start = (page-1)*5
+        end = page*5
+    '''
+    if len(request.args):
+        page = int(request.args[0])
+    else:
+        page = 0
+
+    items_per_page = 5
+    limite = (page * items_per_page, (page + 1) * items_per_page + 1)
+
 
     #Tabela mostrando os produtos
     Tabela2 = db(db.EntradaProdutoEstoque.Ativo == True).select(db.Produto.ProdutoDescricao,db.TipoUnidade.TipoUnidadeDescricao, db.EntradaProdutoEstoque.Lote,
                                                                 db.EntradaProdutoEstoque.Validade, db.EntradaProdutoEstoque.Quantidade,
-                                                                join=db.Produto.on(db.EntradaProdutoEstoque.ID_Produto == db.Produto.id),
-                                                                left=db.TipoUnidade.on(db.Produto.ID_TipoUnidade == db.TipoUnidade.id),
+                                                                join=(db.Produto.on(db.EntradaProdutoEstoque.ID_Produto == db.Produto.id),
+                                                                db.TipoUnidade.on(db.Produto.ID_TipoUnidade == db.TipoUnidade.id)),
+                                                                orderby=db.EntradaProdutoEstoque.Validade,
+                                                                limitby=limite,
+                                                                orderby_on_limitby = False)
+
+    select = db(db.EntradaProdutoEstoque.Ativo == True).select(db.Produto.ProdutoDescricao,db.TipoUnidade.TipoUnidadeDescricao, db.EntradaProdutoEstoque.Lote,
+                                                                db.EntradaProdutoEstoque.Validade, db.EntradaProdutoEstoque.Quantidade,
+                                                                join=(db.Produto.on(db.EntradaProdutoEstoque.ID_Produto == db.Produto.id),
+                                                                db.TipoUnidade.on(db.Produto.ID_TipoUnidade == db.TipoUnidade.id)),
                                                                 orderby=db.EntradaProdutoEstoque.Validade)
+
+
+
+    paginas = []
+    pagina = 0
+    qtdPaginas = int(len(select)/items_per_page)
+
+
+
+
+    while pagina <= qtdPaginas:
+        paginas.append(pagina+1)
+        pagina+=1
+
+
     '''
     Tabela = SQLFORM.grid(db.EntradaProdutoEstoque.Ativo==True,
                      sortable=False,details=False,searchable=False,
@@ -101,7 +140,7 @@ def index():
     else:
         response.flash = 'please fill out the form'
 
-    return dict(tabela=Tabela2, entradaProdutos=EntradaProdutos, saida=SaidaP)
+    return dict(tabela=Tabela2, entradaProdutos=EntradaProdutos, saida=SaidaP, paginacao=page, quantidadePagina = items_per_page, paginas=paginas, select=select)
 
 
 
@@ -233,8 +272,8 @@ def cadProdutos():
 
 
     if cadP.process(onvalidation=cadPVer).accepted:
+        session.flash = 'record inserted'
         redirect(URL())
-        response.flash = "Salvo"
     elif cadP.errors:
         response.flash = 'Erro'
     else:

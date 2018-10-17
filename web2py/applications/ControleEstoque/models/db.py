@@ -193,7 +193,7 @@ db.define_table('Kits',
 
 db.define_table('SaidaProdutoEstoque',
                 Field('ID_EntradaProdutoEstoque', 'reference EntradaProdutoEstoque'),
-                Field('CustoUnitario', type='double'),
+                #Field('CustoTotal', type='double'),
                 Field('Data', type='date'),
                 Field('Quantidade', type='double')
                 )
@@ -209,10 +209,26 @@ db.EntradaProdutoEstoque.ID_Produto.requires = IS_NOT_EMPTY(error_message="Selec
 db.EntradaProdutoEstoque.Lote.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
 db.EntradaProdutoEstoque.Validade.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
 db.EntradaProdutoEstoque.Quantidade.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
+db.Produto.ID_TipoUnidade.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
+db.Produto.CodigoBarras.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
+db.Produto.CodigoCacauShow.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
+db.Produto.QuantidadeMinima.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
+db.Produto.ProdutoDescricao.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
+db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque.requires = IS_NOT_EMPTY(error_message="Preencha  este campo")
+#db.SaidaProdutoEstoque.CustoUnitario.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
+db.SaidaProdutoEstoque.Data.requires = IS_NOT_EMPTY(error_message="Coloque a data no formata dd/mm/aaaa")
+db.SaidaProdutoEstoque.Quantidade.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
+
+
+
+
 #db.EntradaProdutoEstoque.DataDesativacao.requires = IS_NOT_EMPTY()
 
 #Não permite entrada de lotes repetidos
 db.EntradaProdutoEstoque.Lote.requires = IS_NOT_IN_DB(db, 'EntradaProdutoEstoque.Lote')
+db.Produto.ProdutoDescricao.requires = IS_NOT_IN_DB(db, "Produto.ProdutoDescricao")
+db.Produto.CodigoBarras.requires = IS_NOT_IN_DB(db, "Produto.CodigoBarras")
+db.Produto.CodigoCacauShow.requires = IS_NOT_IN_DB(db, "Produto.CodigoCacauShow")
 
 #Cadastra pelo nome e não pelo id
 db.Produto.ID_TipoUnidade.requires = IS_IN_DB(db, db.TipoUnidade, db.TipoUnidade._format)

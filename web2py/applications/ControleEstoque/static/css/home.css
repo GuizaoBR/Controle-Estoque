@@ -14,9 +14,18 @@
     font-size:20px;
     margin-top: 130px;
     width: 85%;
-    margin-left: 120px;
+    margin-left: 7.5%;
+		margin-right: 7.5%;
     border-collapse: collapse;
     border-radius: 20px;
+
+}
+
+.paginacao{
+	margin-top: 40px;
+  margin-left: 38%;
+	margin-right: 38%;
+
 
 }
 tr:nth-child(even) {
@@ -35,7 +44,6 @@ tr:nth-child(even) {
   z-index:1;
   left: 0;
   top: 0;
-  height: 100%;
   width:100%;
   overflow: auto;
   background-color: rgba(0,0,0,0.5);
@@ -100,7 +108,7 @@ tr:nth-child(even) {
   word-spacing: 170px;
   font-weight: bold;
 }
-#inputs, #inputs-eX{
+#inputs-eX{
   position: relative;
   bottom: 2%;
   /*word-spacing: 45px;*/
@@ -109,13 +117,27 @@ tr:nth-child(even) {
 
 }
 
-#inputs > input, #inputs-eX > input, select{
-	margin-left: 1%;
-  margin-right: 5%;
+#inputs{
+  position: relative;
+  bottom: 2%;
+  word-spacing: 38px;
+  height: 54px auto;
+  color: rgb(246, 246, 246);
 
 }
 
 
+
+#inputs > input {
+	margin-left: 1%;
+  margin-right: 2%;
+
+}
+
+#inputs-eX > input, select{
+	margin-left: 13%;
+	margin-right: -6%;
+}
 
 
 select{
@@ -270,8 +292,15 @@ input[type='text']{
 	padding: 5px;
 	display: flex;
 	text-align: center;
+	font-family: 'Font_Prod';
 }
 
 .erro{
 	flex-basis: 25%
+}
+
+#inputs-eX > .error > .erro {
+    flex-basis: 27%;
+    position: relative;
+    left: 10%;
 }
