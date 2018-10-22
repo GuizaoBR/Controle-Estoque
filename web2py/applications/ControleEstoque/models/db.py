@@ -154,6 +154,9 @@ if configuration.get('scheduler.enabled'):
 # auth.enable_record_versioning(db)
 
 db = DAL("sqlite://storage.sqlite", lazy_tables=False)
+auth = Auth(db)
+auth.define_tables(username=False, signature=False)
+
 db.define_table('TipoUnidade',
                 Field('TipoUnidadeDescricao'),
                 format='%(TipoUnidadeDescricao)s'

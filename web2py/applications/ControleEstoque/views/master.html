@@ -16,6 +16,8 @@
         <a href="{{=URL('index')}}">
             <img src="{{=URL('static','imagens/logo.png')}}" width="170" height="150">
         </a>
+        {{if auth.user:}}Login atual: {{=auth.user.first_name}} {{=auth.user.last_name}} <button><a href="/user/logout">SAIR </a></button> <button><a href="/user/profile"> PERFIL </a></button>{{else:}}LOGIN{{pass}}
+
         <nav class="BarraNav">
             <ul id="nav">
                 <a href="{{=URL('index')}}">Controle de Estoque</a>

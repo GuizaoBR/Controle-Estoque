@@ -4,7 +4,7 @@
 # this file is released under public domain and you can use without limitations
 # -------------------------------------------------------------------------
 
-
+@auth.requires_login()
 def entradaValida(form):
     data = form.vars.Validade
     if data >= hoje:
@@ -12,7 +12,7 @@ def entradaValida(form):
         #db(db.Produto.id == db.EntradaProdutoEstoque.ID_Produto).update(Quantidade = db.EntradaProdutoEstoque.Quantidade)
     else:
         form.errors.Validade = "Validade tem que ser superior a data de hoje"
-
+@auth.requires_login()
 def saidaValida(form):
     verificaP = db((db.EntradaProdutoEstoque.id == form.vars.ID_EntradaProdutoEstoque) & (db.EntradaProdutoEstoque.Quantidade >= form.vars.Quantidade))
     menor = db(db.EntradaProdutoEstoque.Quantidade < form.vars.Quantidade)
@@ -22,6 +22,7 @@ def saidaValida(form):
     elif menor:
         form.errors.Quantidade = "Quantidade de saida maior que a quantidade em estoque"
 
+@auth.requires_login()
 def kitsVer(form):
     lista = form.vars.ID_EntradaProdutoEstoque
     produtos = form.vars.QuantidadeProdutos
@@ -41,6 +42,8 @@ def cadPVer(form):
     pass
 
 
+
+@auth.requires_login()
 def index():
 
     db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque.requires = IS_IN_DB(db(db.EntradaProdutoEstoque.Ativo == True), db.EntradaProdutoEstoque,
@@ -143,7 +146,7 @@ def index():
     return dict(tabela=Tabela2, entradaProdutos=EntradaProdutos, saida=SaidaP, paginacao=page, quantidadePagina = items_per_page, paginas=paginas, select=select)
 
 
-
+@auth.requires_login()
 def cadKits():
 
     cadKits = SQLFORM(db.Kits,
@@ -166,6 +169,7 @@ def kits():
                      fields = [db.Kits.Nome, db.Kits.QuantidadeProdutos, db.Kits.QuantidadeKits])
     return dict(tabelaKits=TabelaKits)
 
+@auth.requires_login()
 def relatorio():
     relatorio = FORM(
         INPUT(_name="dataInicial", _type="date", _class=""),
@@ -215,7 +219,7 @@ def relatorio():
                     INPUT(_type="submit"))
 
         relatSaida = db((db.SaidaProdutoEstoque.Data >= inicio) & (db.SaidaProdutoEstoque.Data <= fim)).select(
-            db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque, db.SaidaProdutoEstoque.CustoUnitario,
+            db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque,
             db.SaidaProdutoEstoque.Data, db.SaidaProdutoEstoque.Quantidade,
             orderby=db.SaidaProdutoEstoque.Data,
             join=db.EntradaProdutoEstoque.on(db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque == db.EntradaProdutoEstoque.id)
@@ -229,8 +233,8 @@ def relatorio():
 
         relat = db((db.SaidaProdutoEstoque.Data >= inicio) & (db.SaidaProdutoEstoque.Data <= fim) &
                    (db.EntradaProdutoEstoque.Data >= inicio) & (db.EntradaProdutoEstoque.Data <= fim)).select(
-            db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque, db.SaidaProdutoEstoque.CustoUnitario,
-            db.SaidaProdutoEstoque.Data, db.SaidaProdutoEstoque.Quantidade,
+            db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque,db.SaidaProdutoEstoque.Data,
+            db.SaidaProdutoEstoque.Quantidade,
             db.EntradaProdutoEstoque.ID_Produto, db.EntradaProdutoEstoque.Data,
             db.EntradaProdutoEstoque.Quantidade, db.EntradaProdutoEstoque.Lote)
 
@@ -255,7 +259,7 @@ def relatorio():
                         if str(produto.id) == str(produtoEntrada.ID_Produto):
                             arquivo.write(str(produto.ProdutoDescricao) + ";" + str(produtoEntrada.Data) + ";"+ str(produto.CustoUnitario) + ";" + "Entrada;" + str(produtoEntrada.Lote) +
                                           ";" + str(produtoEntrada.Quantidade)+"\n")
-                            arquivo.write(str(produto.ProdutoDescricao) +";"+ str(produtoSaida.Data) + ";" + str(produtoSaida.CustoUnitario) +";" +"Saida;" + str(produtoEntrada.Lote) +
+                            arquivo.write(str(produto.ProdutoDescricao) +";"+ str(produtoSaida.Data) + ";" + ";" +";" +"Saida;" + str(produtoEntrada.Lote) +
                                           ";" + str(produtoSaida.Quantidade)+"\n")
             arquivo.close()
 
@@ -267,6 +271,7 @@ def relatorio():
 
     return dict(relatorio=relatorio, relat=relatG)
 
+@auth.requires_login()
 def cadProdutos():
     cadP=  SQLFORM(db.Produto)
 
