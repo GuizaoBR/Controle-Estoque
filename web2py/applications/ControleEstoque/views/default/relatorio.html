@@ -1,0 +1,65 @@
+{{extend 'master.html'}}
+
+
+{{block head}}
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css/home.css')}}"/>
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css/relatorio.css')}}"/>
+{{end head}}
+
+{{block conteudo}}
+<center>
+  <form action="" enctype="multipart/form-data" method="post" class="flex">
+        <label id="Inicial" for="dataInicial">Data Inicial</label>
+        <label id="Final" for="dataFinal"> Data Final</label>
+        {{=relatorio.custom.begin}}
+        <div class="inicio">
+          {{=relatorio.custom.widget.dataInicial}}
+        </div>
+        <div class="final">
+          {{=relatorio.custom.widget.dataFinal}}
+        </div>
+        <button class="bt" type="submit">Relatorio</button>
+        {{=relatorio.custom.end}}
+
+  </form>
+  <table id="TblProduto">
+        <tr>
+            <th id="DescCamp">Produto</th>
+            <th id="DescCamp">Lote</th>
+            <th id="DescCamp">Data</th>
+            <th id="DescCamp">Quantidade</th>
+            <th id="DescCamp">Tipo</th>
+
+        </tr>
+        <tr>
+          {{for produto in relat:}}
+            <td id="DescProd">{{=produto.Produto.ProdutoDescricao}}</td>
+            <td id="DescProd">{{=produto.EntradaProdutoEstoque.Lote}}</td>
+            {{if produto.EntradaProdutoEstoque:}}
+              <td id="DescProd">{{=produto.EntradaProdutoEstoque.Data.strftime("%d/%m/%Y")}}</td>
+            {{else: }}
+            <td id="DescProd">{{=produto.SaidaProdutoEstoque.Data.strftime("%d/%m/%Y")}}</td>
+            {{pass}}
+            {{if produto.TipoUnidade.TipoUnidadeDescricao == "Unidade" and produto.EntradaProdutoEstoque:}}
+              <td id="DescProd">{{=int(produto.EntradaProdutoEstoque.Quantidade)}} Uni</td>
+            {{elif produto.TipoUnidade.TipoUnidadeDescricao == "Unidade" and produto.SaidaProdutoEstoque:}}
+              <td id="DescProd">{{=int(produto.SaidaProdutoEstoque.Quantidade)}} Uni</td>
+            {{elif produto.TipoUnidade.TipoUnidadeDescricao == "Gramas" and produto.SaidaProdutoEstoque:}}
+              <td id="DescProd">{{=produto.SaidaProdutoEstoque.Quantidade }} g</td>
+            {{else:}}
+              <td id="DescProd">{{=produto.EntradaProdutoEstoque.Quantidade }} g</td>
+            {{pass}}
+            {{if produto.EntradaProdutoEstoque:}}
+              <td id="DescProd">{{=produto.EntradaProdutoEstoque.Tipo}}</td>
+            {{else:}}
+              <td id="DescProd">{{=produto.SaidaProdutoEstoque.Tipo}}</td>
+            {{pass}}
+        </tr>
+        {{pass}}
+
+
+    </table>
+
+</center>
+
+{{end conteudo}}

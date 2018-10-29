@@ -1,4 +1,36 @@
+@font-face{
+
+	font-family: 'Font_Prod';
+    src: url("../fonts/CANDARA.TTF");
+  }
+
+
 .error{
   color: red;
   font-weight: bolder;
 }
+
+
+
+.bt {
+    font-size: 40px;
+    outline: none;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.034);
+    cursor: pointer;
+    text-shadow: 2px 2px black;
+    color: green
+
+  }
+
+  .logado{
+    position: relative;
+    top: 30px
+  }
+
+  .logado .bt a {
+  	color: #522916f5;
+    font-size: 25px;
+    padding: 0;
+    height: 0;
+  }

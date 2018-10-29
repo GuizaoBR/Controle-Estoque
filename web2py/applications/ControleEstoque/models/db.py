@@ -169,7 +169,6 @@ db.define_table('Produto',
                 Field('CustoUnitario', type='double'),
                 Field('QuantidadeMinima', type='double'),
                 Field('ProdutoDescricao', type='string', label='Produto'),
-                redefine=True,
                 format='%(ProdutoDescricao)s'
                 )
 
@@ -181,7 +180,7 @@ db.define_table('EntradaProdutoEstoque',
                 Field('Quantidade', type='double'),
                 Field('DataDesativacao',type='date'),
                 Field('Lote'),
-                redefine=True,
+                Field('Tipo', default="Entrada"),
                 format='%(Lote)s' + ' - ' + '%(ID_Produto)s'
                 )
 
@@ -198,7 +197,8 @@ db.define_table('SaidaProdutoEstoque',
                 Field('ID_EntradaProdutoEstoque', 'reference EntradaProdutoEstoque'),
                 #Field('CustoTotal', type='double'),
                 Field('Data', type='date'),
-                Field('Quantidade', type='double')
+                Field('Quantidade', type='double'),
+                Field('Tipo', default="Saida")
                 )
 
 

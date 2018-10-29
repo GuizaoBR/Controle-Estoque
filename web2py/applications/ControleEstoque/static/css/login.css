@@ -1,0 +1,32 @@
+.login{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  top: 150px
+  }
+
+.titulo{
+  flex-basis: 100%;
+  font-family: 'Font_Prod';
+  font-style: bold;
+  color: rgb(119, 46, 14);
+}
+.usuario{
+  flex-basis: 100%;
+  margin-bottom: 10px
+}
+
+.senha{
+  flex-basis: 100%;
+  margin-bottom: 10px
+
+}
+
+input{
+    outline: none;
+    font-size: 22px;
+    font-family: 'Font_Prod';
+    font-style: bold;
+    color: rgb(119, 46, 14);
+}

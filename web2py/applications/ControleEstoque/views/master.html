@@ -16,7 +16,6 @@
         <a href="{{=URL('index')}}">
             <img src="{{=URL('static','imagens/logo.png')}}" width="170" height="150">
         </a>
-        {{if auth.user:}}Login atual: {{=auth.user.first_name}} {{=auth.user.last_name}} <button><a href="/user/logout">SAIR </a></button> <button><a href="/user/profile"> PERFIL </a></button>{{else:}}LOGIN{{pass}}
 
         <nav class="BarraNav">
             <ul id="nav">
@@ -25,6 +24,9 @@
                 <a href="{{=URL('cadProdutos')}}">Cadastro de Novos Produtos</a>
             </ul>
         </nav>
+    </div>
+    <div class="logado">
+      {{if auth.user:}}Login atual: {{=auth.user.first_name}} {{=auth.user.last_name}} <button class="bt"><a href="/user/logout">SAIR </a></button> <button class="bt"><a href="/user/profile"> PERFIL </a></button>{{pass}}
     </div>
     {{block conteudo}}
     {{end conteudo}}
@@ -39,7 +41,6 @@
     <script src="{{=URL('static', 'js/jquery.maskMoney.min.js')}}"></script>
     <script src="{{=URL('static', 'js/jquery.paginate.js')}}"></script>
     <script src="{{=URL('static','js/script.js')}}"></script>
-    <script src="{{=URL('static','js/verificaForm.js')}}"></script>
  {{block script}}
  {{end script}}
 </body>

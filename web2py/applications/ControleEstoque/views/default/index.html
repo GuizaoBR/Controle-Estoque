@@ -32,24 +32,24 @@
     </table>
     <div class="paginacao">
         {{if len(tabela) > quantidadePagina:}}
-        <button><a class="btn btn-default" href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
+        <button class="bt"><a class="btn btn-default" href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
           {{for x in paginas:}}
-            <button><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
+            <button class="bt"><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
           {{pass}}
-          <button><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
+          <button class="bt"><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
 
         {{elif len(tabela) < quantidadePagina:}}
-          <button><a class="btn btn-default" href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
+          <button class="bt"><a class="btn btn-default" href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
           {{for x in paginas:}}
-            <button><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
+            <button class="bt"><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
           {{pass}}
-            <button disabled>Próximo</button>
+            <button class="bt" disabled>Próximo</button>
           {{elif URL(args=[paginacao]) == URL("index/0"):}}
-          <button disabled>Anterior</button>
+          <button class="bt" disabled>Anterior</button>
           {{for x in paginas:}}
-            <button><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
+            <button class="bt"><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
           {{pass}}
-          <button><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
+          <button class="bt"><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
 
       {{pass}}
     </div>
@@ -60,7 +60,7 @@
   <div class="ModalCad_Exclu">
     <button id="Btn-Estoque"><i id="bagPlus"class="fas fa-cart-plus"></i></button>
       <div id="simpleModal" class="modal">
-        <form action="#" enctype="multipart/form-data" method="post">
+        <form action="#" enctype="multipart/form-data" method="post" id="entrada">
           <div class="modal-content">
             <div class="modal-header">
                 <h2>ENTRADA DE PRODUTOS </h2>
@@ -100,7 +100,7 @@
     <div class="ModalExclusao">
       <button id="Btn_EstoqueEX"><i class="far fa-trash-alt"></i></button>
       <div id="simpleModal-eX" class="modalEx">
-        <form action="#" enctype="multipart/form-data" method="post">
+        <form action="#" enctype="multipart/form-data" method="post" id="saida">
           <div class="modal-contentEx">
             <div class="modal-headerEx">
               <h2>SAÍDA DE PRODUTOS</h2>

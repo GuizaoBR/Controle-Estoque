@@ -28,6 +28,13 @@
 
 
 }
+.bt a{
+	font-size: 25px;
+	padding: 0 !important;
+	color: green
+}
+
+
 tr:nth-child(even) {
     background-color: #dddddd57;
 
@@ -159,7 +166,7 @@ select{
 
 input[type='text']{
     position: relative;
-    left: 19px;
+    /*left: 19px;*/
 		top: 17px auto;
     text-align: center;
     background-color: rgb(246, 246, 246);

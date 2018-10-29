@@ -1,0 +1,47 @@
+
+
+.flex{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  position: relative;
+  top: 50px
+}
+
+
+#Final{
+  flex-basis: 50%
+}
+
+#Inicial{
+  flex-basis: 50%
+}
+
+.inicio{
+  flex-basis: 50%
+}
+.final{
+  flex-basis: 50%
+
+}
+
+.bt{
+  flex-basis: 100%
+}
+
+.btn{
+  flex-shrink: 0
+}
+.mover{
+  flex-basis: 100%;
+}
+
+label{
+  font-family: Font_Nav;
+  text-shadow: 2px 2px 5px white;
+  font-size: 1.5em
+}
+
+h1{
+  font-size: 3em
+}

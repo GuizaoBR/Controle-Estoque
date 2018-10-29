@@ -1,8 +1,4 @@
-@font-face{
 
-	font-family: 'Font_Prod';
-    src: url("../fonts/CANDARA.TTF");
-  }
 
 .newProd{
     position: relative;
@@ -54,13 +50,16 @@ tr{
 button{
     margin-top: 20px;
     margin-bottom: 20px;
-    width: 40px;
-    height: 40px;
     font-size: 40px;
     outline: none;
     border: none ;
     background-color:rgba(255, 255, 255, 0.034);
     cursor: pointer;
+
+}
+.bt a{
+	font-size: 25px;
+	color: green
 
 }
 #EnviaCad{

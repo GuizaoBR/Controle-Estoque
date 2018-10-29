@@ -1,29 +1,29 @@
-{{extend 'layout_login.html'}}
+{{extend 'master.html'}}
 
 
 {{block head}}
-<link type="text/css" rel="stylesheet" href="{{=URL('static','css_old/teste.css')}}"/>
-<link type="text/css" rel="stylesheet" href="{{=URL('static','css_old/estilo.css')}}"/>
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css/login.css')}}"/>
 {{end head}}
 
 
 {{block conteudo}}
-<h2>
-    {{=T('Sign Up') if request.args(0) == 'register' else T('Log In') if request.args(0) == 'login' else T(request.args(0).replace('_',' ').title())}}
-    </h2>
 
-    <div class="container">
-        <div class="row">
-            <div id="web2py_user_form" class="col-lg-6">
-
-            {{=form
-            }}
-
-
-            </div>
+<center>
+  <form class="login" action="#" enctype="multipart/form-data" method="post">
+    <div>
+      {{=form.custom.begin}}
+        <div class="usuario">
+          {{=form.custom.widget.email}}
         </div>
+        <div class="senha">
+          {{=form.custom.widget.password}}
+        </div>
+        <button class="bt" type="submit">Login</button>
+      {{=form.custom.end}}
     </div>
+</form>
 
+</center>
     {{block page_js}}
     <script>
         jQuery("#web2py_user_form input:visible:enabled:first").focus();

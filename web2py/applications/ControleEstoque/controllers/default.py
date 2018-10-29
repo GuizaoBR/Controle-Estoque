@@ -126,7 +126,7 @@ def index():
 
     SaidaP = SQLFORM(db.SaidaProdutoEstoque,hideerror=True)
 
-    if SaidaP.process(onvalidation=saidaValida).accepted:
+    if SaidaP.process(onvalidation=saidaValida,formname='saida').accepted:
         redirect(URL("index"))
         response.flash = "Salvo"
     elif SaidaP.errors:
@@ -135,7 +135,7 @@ def index():
         response.flash = "Preencha todos os campos"
 
 
-    if EntradaProdutos.process(onvalidation=entradaValida).accepted:
+    if EntradaProdutos.process(onvalidation=entradaValida,formname='entrada').accepted:
         redirect(URL('index'))
         response.flash = 'Salvo'
     elif EntradaProdutos.errors:
@@ -171,14 +171,18 @@ def kits():
 
 @auth.requires_login()
 def relatorio():
-    relatorio = FORM(
-        INPUT(_name="dataInicial", _type="date", _class=""),
-        INPUT(_name="dataFinal", _type="date", _class=""),
-        INPUT(_type="submit", _value="Gerar")
+    relatorio = SQLFORM.factory(
+        Field("dataInicial", type="date"),
+        Field("dataFinal", type="date"),
     )
 
+    relatorio.custom.widget.dataInicial["_type"] = "date"
+    relatorio.custom.widget.dataInicial["_class"] = ""
+    relatorio.custom.widget.dataFinal["_type"] = "date"
+    relatorio.custom.widget.dataFinal["_class"] = ""
 
     relatG = FORM()
+    tabela = ""
     '''
     db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque.requires = IS_IN_DB(db, db.EntradaProdutoEstoque,
                                                                         lambda r: '%s - %s' % (r.Lote, r.ID_Produto.ProdutoDescricao))
@@ -187,61 +191,35 @@ def relatorio():
     if relatorio.process(formname='form_one').accepted:
         inicio = relatorio.vars.dataInicial
         fim = relatorio.vars.dataFinal
-        tabelaE = ((db.EntradaProdutoEstoque.Data >= inicio)&
-              (db.EntradaProdutoEstoque.Data <= fim))
 
 
-        relatE = SQLFORM.grid(tabelaE, fields=[db.EntradaProdutoEstoque.ID_Produto,
-                                              db.EntradaProdutoEstoque.Data,
-                                              db.EntradaProdutoEstoque.Quantidade], _class="",
-                             headers={"EntradaProdutoEstoque.ID_Produto" : "Produto",
-                                      "EntradaProdutoEstoque.Data" : "Data de entrada"},csv=False,
-                             details=False,searchable=False,
-                             paginate=7, links_in_grid=False,sortable=False)
-        export_classes = dict(csv=True, json=False, html=False,
-                              tsv=False, xml=False, csv_with_hidden_cols=False,
-                              tsv_with_hidden_cols=False)
 
-        tabelaS = ((db.SaidaProdutoEstoque.Data >= relatorio.vars.dataInicial)&
-                   (db.SaidaProdutoEstoque.Data <= relatorio.vars.dataFinal))
+        tabelaSelect =  ((db.EntradaProdutoEstoque.Data >= inicio) & (db.EntradaProdutoEstoque.Data <= fim)&
+                    (db.SaidaProdutoEstoque.Data >= relatorio.vars.dataInicial)&
+                    (db.SaidaProdutoEstoque.Data <= relatorio.vars.dataFinal))
 
-
-        relatS = SQLFORM.grid(tabelaS, fields=[db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque,
-                                              db.SaidaProdutoEstoque.Data,
-                                              db.SaidaProdutoEstoque.Quantidade], _class="",
-                             headers={"SaidaProdutoEstoque.ID_EntradaProdutoEstoque" : "Produto",
-                                      "SaidaProdutoEstoque.Data" : "Data de saida"},csv=False,
-                             details=False,searchable=False,
-                             paginate=7, links_in_grid=False, sortable=False)
+        tabela = db(tabelaSelect).select(db.Produto.ProdutoDescricao, db.EntradaProdutoEstoque.Data, db.EntradaProdutoEstoque.Quantidade,
+                                     db.SaidaProdutoEstoque.Quantidade, db.SaidaProdutoEstoque.Data,
+                                     db.TipoUnidade.TipoUnidadeDescricao, db.EntradaProdutoEstoque.Lote,
+                                     db.EntradaProdutoEstoque.Tipo, db.SaidaProdutoEstoque.Tipo,
+                                     join=(db.Produto.on(db.EntradaProdutoEstoque.ID_Produto == db.Produto.id),
+                                           db.TipoUnidade.on(db.Produto.ID_TipoUnidade == db.TipoUnidade.id),
+                                           db.EntradaProdutoEstoque.on(db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque == db.EntradaProdutoEstoque.id))
+                                     )
 
 
+        '''
         relatG = FORM(relatE+relatS,
                     INPUT(_type="submit"))
+        '''
 
-        relatSaida = db((db.SaidaProdutoEstoque.Data >= inicio) & (db.SaidaProdutoEstoque.Data <= fim)).select(
-            db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque,
-            db.SaidaProdutoEstoque.Data, db.SaidaProdutoEstoque.Quantidade,
-            orderby=db.SaidaProdutoEstoque.Data,
-            join=db.EntradaProdutoEstoque.on(db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque == db.EntradaProdutoEstoque.id)
-        )
-        relatEntrada = db((db.EntradaProdutoEstoque.Data >= inicio) & (db.EntradaProdutoEstoque.Data <= fim)).select(
-            db.EntradaProdutoEstoque.ID_Produto, db.EntradaProdutoEstoque.Data,
-            db.EntradaProdutoEstoque.Quantidade, db.EntradaProdutoEstoque.Lote,
-            orderby=db.EntradaProdutoEstoque.Data,
-            join=db.Produto.on(db.EntradaProdutoEstoque.ID_Produto == db.Produto.id)
-        )
 
-        relat = db((db.SaidaProdutoEstoque.Data >= inicio) & (db.SaidaProdutoEstoque.Data <= fim) &
-                   (db.EntradaProdutoEstoque.Data >= inicio) & (db.EntradaProdutoEstoque.Data <= fim)).select(
-            db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque,db.SaidaProdutoEstoque.Data,
-            db.SaidaProdutoEstoque.Quantidade,
-            db.EntradaProdutoEstoque.ID_Produto, db.EntradaProdutoEstoque.Data,
-            db.EntradaProdutoEstoque.Quantidade, db.EntradaProdutoEstoque.Lote)
+
 
 
         produtos = db().select(db.Produto.id, db.Produto.ProdutoDescricao,db.Produto.CustoUnitario)
 
-
+        '''
         if relatG.process().accepted:
             arquivo = open("teste.csv", "w")
             arquivo.write("erro")
@@ -262,21 +240,21 @@ def relatorio():
                             arquivo.write(str(produto.ProdutoDescricao) +";"+ str(produtoSaida.Data) + ";" + ";" +";" +"Saida;" + str(produtoEntrada.Lote) +
                                           ";" + str(produtoSaida.Quantidade)+"\n")
             arquivo.close()
-
+        '''
 
     elif relatorio.errors:
         response.flash = 'Erro'
     else:
         response.flash = "Preencha todos os campos"
 
-    return dict(relatorio=relatorio, relat=relatG)
+    return dict(relatorio=relatorio, relat=tabela)
 
 @auth.requires_login()
 def cadProdutos():
     cadP=  SQLFORM(db.Produto)
 
 
-    if cadP.process(onvalidation=cadPVer).accepted:
+    if cadP.process(onvalidation=cadPVer,formname='cadastro').accepted:
         session.flash = 'record inserted'
         redirect(URL())
     elif cadP.errors:
