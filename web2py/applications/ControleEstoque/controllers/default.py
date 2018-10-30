@@ -172,17 +172,19 @@ def kits():
 @auth.requires_login()
 def relatorio():
     relatorio = SQLFORM.factory(
-        Field("dataInicial", type="date"),
-        Field("dataFinal", type="date"),
+        Field("dataInicial", type="date", requires=IS_DATE(format=T('%d/%m/%Y'))),
+        Field("dataFinal", type="date", requires=IS_DATE(format=T('%d/%m/%Y'))),
     )
 
-    relatorio.custom.widget.dataInicial["_type"] = "date"
-    relatorio.custom.widget.dataInicial["_class"] = ""
-    relatorio.custom.widget.dataFinal["_type"] = "date"
-    relatorio.custom.widget.dataFinal["_class"] = ""
+
+
+
+
+
 
     relatG = FORM()
     tabela = ""
+    gerar = ""
     '''
     db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque.requires = IS_IN_DB(db, db.EntradaProdutoEstoque,
                                                                         lambda r: '%s - %s' % (r.Lote, r.ID_Produto.ProdutoDescricao))
@@ -194,18 +196,16 @@ def relatorio():
 
 
 
-        tabelaSelect =  ((db.EntradaProdutoEstoque.Data >= inicio) & (db.EntradaProdutoEstoque.Data <= fim)&
-                    (db.SaidaProdutoEstoque.Data >= relatorio.vars.dataInicial)&
-                    (db.SaidaProdutoEstoque.Data <= relatorio.vars.dataFinal))
-
+        tabelaSelect = ((db.EntradaProdutoEstoque.Data >= inicio) & (db.EntradaProdutoEstoque.Data <= fim) &
+                        (db.SaidaProdutoEstoque.Data >= inicio) & (db.SaidaProdutoEstoque.Data <= fim))
         tabela = db(tabelaSelect).select(db.Produto.ProdutoDescricao, db.EntradaProdutoEstoque.Data, db.EntradaProdutoEstoque.Quantidade,
                                      db.SaidaProdutoEstoque.Quantidade, db.SaidaProdutoEstoque.Data,
-                                     db.TipoUnidade.TipoUnidadeDescricao, db.EntradaProdutoEstoque.Lote,
-                                     db.EntradaProdutoEstoque.Tipo, db.SaidaProdutoEstoque.Tipo,
+                                     db.TipoUnidade.TipoUnidadeDescricao, db.EntradaProdutoEstoque.Lote, db.Produto.id,
+                                     db.EntradaProdutoEstoque.id, db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque,
                                      join=(db.Produto.on(db.EntradaProdutoEstoque.ID_Produto == db.Produto.id),
                                            db.TipoUnidade.on(db.Produto.ID_TipoUnidade == db.TipoUnidade.id),
-                                           db.EntradaProdutoEstoque.on(db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque == db.EntradaProdutoEstoque.id))
-                                     )
+                                           db.EntradaProdutoEstoque.on(db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque == db.EntradaProdutoEstoque.id)),
+                                    orderby=db.EntradaProdutoEstoque.Data | db.SaidaProdutoEstoque.Data)
 
 
         '''
@@ -215,9 +215,29 @@ def relatorio():
 
 
 
+        gerar = FORM(INPUT(_type="submit"))
 
+        if gerar.process().accepted:
+            arquivo = open("accepted.csv", "w")
+            arquivo.write("accepted")
+            arquivo.close()
+        elif gerar.errors:
+            arquivo = open("errors.csv", "w")
+            arquivo.write("errors")
+            arquivo.close()
+        else:
+            arquivo = open("Relatorio.csv", "w")
+            arquivo.write("Produto; Lote; Data; Quantidade; Tipo; Movimento\n")
+            for produto in tabela:
+                arquivo.write(str(produto.Produto.ProdutoDescricao) + ";" + str(produto.EntradaProdutoEstoque.Lote) + ";"+
+                              str(produto.EntradaProdutoEstoque.Data.strftime("%d/%m/%Y")) + ";" + str(produto.EntradaProdutoEstoque.Quantidade) +";"+
+                              "Entrada;"+str(produto.TipoUnidade.TipoUnidadeDescricao) +"\n")
+                arquivo.write(str(produto.Produto.ProdutoDescricao) + ";" + str(produto.EntradaProdutoEstoque.Lote) + ";"+
+                              str(produto.SaidaProdutoEstoque.Data.strftime("%d/%m/%Y")) + ";" + str(produto.SaidaProdutoEstoque.Quantidade) +";"+
+                              "Saida;"+str(produto.TipoUnidade.TipoUnidadeDescricao)+"\n")
+            arquivo.close()
 
-        produtos = db().select(db.Produto.id, db.Produto.ProdutoDescricao,db.Produto.CustoUnitario)
+        #produtos = db().select(db.Produto.id, db.Produto.ProdutoDescricao,db.Produto.CustoUnitario)
 
         '''
         if relatG.process().accepted:
@@ -247,7 +267,7 @@ def relatorio():
     else:
         response.flash = "Preencha todos os campos"
 
-    return dict(relatorio=relatorio, relat=tabela)
+    return dict(relatorio=relatorio, relat=tabela, gerar=gerar)
 
 @auth.requires_login()
 def cadProdutos():

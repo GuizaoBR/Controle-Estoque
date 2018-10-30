@@ -31,26 +31,33 @@
 
     </table>
     <div class="paginacao">
-        {{if len(tabela) > quantidadePagina:}}
+        {{if len(tabela) >= quantidadePagina:}}
         <button class="bt"><a class="btn btn-default" href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
           {{for x in paginas:}}
             <button class="bt"><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
           {{pass}}
           <button class="bt"><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
 
-        {{elif len(tabela) < quantidadePagina:}}
+        {{elif len(tabela) <= quantidadePagina:}}
           <button class="bt"><a class="btn btn-default" href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
           {{for x in paginas:}}
             <button class="bt"><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
           {{pass}}
-            <button class="bt" disabled>Próximo</button>
-          {{elif URL(args=[paginacao]) == URL("index/0"):}}
-          <button class="bt" disabled>Anterior</button>
-          {{for x in paginas:}}
-            <button class="bt"><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
-          {{pass}}
-          <button class="bt"><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
+          <button class="bt" disabled>Próximo</button>
+        {{elif URL(args=request.args) == URL('index/0'):}}
+        <button deisbled class="bt">Anterior</button>
+        {{for x in paginas:}}
+          <button class="bt"><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
+        {{pass}}
+        <button class="bt"><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
 
+        {{else:}}
+            <button class="bt"><a class="btn btn-default" href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
+              {{for x in paginas:}}
+                <button class="bt"><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
+          {{pass}}
+
+          <button class="bt"><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
       {{pass}}
     </div>
 
