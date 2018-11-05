@@ -7,6 +7,7 @@
 from gluon.contrib.appconfig import AppConfig
 from gluon.tools import Auth
 
+
 # -------------------------------------------------------------------------
 # This scaffolding model makes your app work on Google App Engine too
 # File is released under public domain and you can use without limitations
@@ -265,7 +266,7 @@ db.Kits.ID_EntradaProdutoEstoque.widget = lambda field,value:     SQLFORM.widget
 db.Kits.QuantidadeProdutos.widget = lambda field,value:     SQLFORM.widgets.integer.widget(field,value,_placeholder='Quantidade Produtos',_class="integer login")
 db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque.widget = lambda field,value:     SQLFORM.widgets.options.widget(field,value,_class="form-control")
 db.Produto.CustoUnitario.widget = lambda field,value:     SQLFORM.widgets.double.widget(field,value,_class="form-control", _id="precoUni")
-db.SaidaProdutoEstoque.Data.widget = lambda field,value:     SQLFORM.widgets.date.widget(field,value, _class="form-control", _type="date")
+db.SaidaProdutoEstoque.Data.widget = lambda field,value:     SQLFORM.widgets.date.widget(field,value, _class="form-control date")
 
 
 from datetime import date
@@ -276,3 +277,12 @@ db.EntradaProdutoEstoque.Data.default = hoje
 
 db((db.EntradaProdutoEstoque.Quantidade == 0) & (db.EntradaProdutoEstoque.Ativo == True)).update(DataDesativacao = hoje)
 db((db.EntradaProdutoEstoque.DataDesativacao <= hoje) & (db.EntradaProdutoEstoque.Ativo == True)).update(Ativo = False)
+
+#Configurações email
+from gluon.tools import Mail
+
+mail = auth.settings.mailer
+mail.settings.server = "smtp.gmail.com:587"
+mail.settings.sender = 'gui.germano.silva@gmail.com'
+mail.settings.login = None
+mail.settings.tls = False
