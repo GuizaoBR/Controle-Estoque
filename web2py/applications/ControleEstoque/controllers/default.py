@@ -175,7 +175,6 @@ def kits():
 
 @auth.requires_login()
 def relatorio():
-    import codecs
     relatorio = SQLFORM.factory(
         Field("dataInicial", type="date", requires=IS_DATE(format=T('%d/%m/%Y'))),
         Field("dataFinal", type="date", requires=IS_DATE(format=T('%d/%m/%Y'))),
@@ -202,11 +201,13 @@ def relatorio():
 
 
         tabelaSelect = ((db.EntradaProdutoEstoque.Data >= inicio) & (db.EntradaProdutoEstoque.Data <= fim) &
-                        (db.SaidaProdutoEstoque.Data >= inicio) & (db.SaidaProdutoEstoque.Data <= fim))
+                        (db.SaidaProdutoEstoque.Data >= inicio) & (db.SaidaProdutoEstoque.Data <= fim)|
+                        (db.EntradaProdutoEstoque.Ativo == False) & (db.EntradaProdutoEstoque.Quantidade > 0))
         tabela = db(tabelaSelect).select(db.Produto.ProdutoDescricao, db.EntradaProdutoEstoque.Data, db.EntradaProdutoEstoque.Quantidade,
                                      db.SaidaProdutoEstoque.Quantidade, db.SaidaProdutoEstoque.Data,
                                      db.TipoUnidade.TipoUnidadeDescricao, db.EntradaProdutoEstoque.Lote, db.Produto.id,
                                      db.EntradaProdutoEstoque.id, db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque,
+                                     db.EntradaProdutoEstoque.DataDesativacao,
                                      join=(db.Produto.on(db.EntradaProdutoEstoque.ID_Produto == db.Produto.id),
                                            db.TipoUnidade.on(db.Produto.ID_TipoUnidade == db.TipoUnidade.id),
                                            db.EntradaProdutoEstoque.on(db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque == db.EntradaProdutoEstoque.id)),
@@ -220,7 +221,7 @@ def relatorio():
 
 
 
-        gerar = FORM(INPUT(_type="submit"))
+        gerar = FORM(INPUT(_type="submit", _value="Gerar relatorio"))
 
         if gerar.process().accepted:
             arquivo = open("accepted.csv", "w")
@@ -231,7 +232,7 @@ def relatorio():
             arquivo.write("errors")
             arquivo.close()
         else:
-            arquivo = codecs.open("Relatorio.csv", "w", encoding="utf8")
+            arquivo = open("Relatorio.xlsx", encoding='utf-8' , mode="w")
             arquivo.write("Produto; Lote; Data; Quantidade; Tipo; Movimento\n")
             for produto in tabela:
                 arquivo.write(str(produto.Produto.ProdutoDescricao) + ";" + str(produto.EntradaProdutoEstoque.Lote) + ";"+
