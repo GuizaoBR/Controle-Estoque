@@ -1,0 +1,32 @@
+{{extend 'layoutControle.html'}}
+
+
+{{block head}}
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css_old/teste.css')}}"/>
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css_old/estilo.css')}}"/>
+{{end head}}
+
+
+{{block conteudo}}
+
+<center><h1 class="titulo">Cadastro de Kits</h1></center>
+  {{=cadKits.custom.begin}}
+		<center>
+			<div class="flex" id="form">
+				{{=cadKits.custom.widget.Nome}}
+        {{=cadKits.custom.widget.QuantidadeKits}}
+        {{=cadKits.custom.widget.ID_EntradaProdutoEstoque}}
+        {{=cadKits.custom.widget.QuantidadeProdutos}}
+        <button type="button" name="Add" class="add_rm" id="Adicionar">+</button>
+        <button type="button" name="Rm" class="add_rm" id="Remover">-</button>
+			</div>
+    <input type="submit" value="Adicionar"></br>
+		</center>
+  {{=cadKits.custom.end}}
+
+
+
+{{end conteudo}}
+{{block script}}
+<script src="{{=URL('static','js_old/adicionar_remover.js')}}"></script>
+{{end script}}

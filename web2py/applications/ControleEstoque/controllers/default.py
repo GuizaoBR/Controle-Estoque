@@ -143,6 +143,10 @@ def index():
     else:
         response.flash = 'please fill out the form'
 
+    mail.send(to=['gui.germano.silva@gmail.com'],
+          subject='hello',
+          message='hi there')
+
     return dict(tabela=Tabela2, entradaProdutos=EntradaProdutos, saida=SaidaP, paginacao=page, quantidadePagina = items_per_page, paginas=paginas, select=select)
 
 
@@ -171,6 +175,7 @@ def kits():
 
 @auth.requires_login()
 def relatorio():
+    import codecs
     relatorio = SQLFORM.factory(
         Field("dataInicial", type="date", requires=IS_DATE(format=T('%d/%m/%Y'))),
         Field("dataFinal", type="date", requires=IS_DATE(format=T('%d/%m/%Y'))),
@@ -226,7 +231,7 @@ def relatorio():
             arquivo.write("errors")
             arquivo.close()
         else:
-            arquivo = open("Relatorio.csv", "w")
+            arquivo = codecs.open("Relatorio.csv", "w", encoding="utf8")
             arquivo.write("Produto; Lote; Data; Quantidade; Tipo; Movimento\n")
             for produto in tabela:
                 arquivo.write(str(produto.Produto.ProdutoDescricao) + ";" + str(produto.EntradaProdutoEstoque.Lote) + ";"+
