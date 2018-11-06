@@ -18,13 +18,13 @@
         {{if i == quantidadePagina: break}}
         <tr>
             <td id="DescProd">{{=produto.Produto.ProdutoDescricao}}</td>
-            <td id="DescProd">{{=produto.EntradaProdutoEstoque.Lote}}</td>
+            <td id="DescProd">{{=produto.Estoque.Lote}}</td>
             {{if produto.TipoUnidade.TipoUnidadeDescricao == "Unidade":}}
-              <td id="DescProd">{{=int(produto.EntradaProdutoEstoque.Quantidade)}} Uni</td>
+              <td id="DescProd">{{=int(produto.Estoque.Quantidade)}} Uni</td>
             {{else:}}
-              <td id="DescProd">{{=produto.EntradaProdutoEstoque.Quantidade}} g</td>
+              <td id="DescProd">{{=produto.Estoque.Quantidade}} g</td>
             {{pass}}
-            <td id="DescProd">{{=produto.EntradaProdutoEstoque.Validade.strftime("%d/%m/%Y")}}</td>
+            <td id="DescProd">{{=produto.Estoque.Validade.strftime("%d/%m/%Y")}}</td>
         </tr>
         {{pass}}
 
@@ -32,32 +32,32 @@
     </table>
     <div class="paginacao">
         {{if len(tabela) >= quantidadePagina:}}
-        <button class="bt"><a class="btn btn-default" href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
+        <button ><a  href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
           {{for x in paginas:}}
-            <button class="bt"><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
+            <button ><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
           {{pass}}
-          <button class="bt"><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
+          <button ><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
 
         {{elif len(tabela) <= quantidadePagina:}}
-          <button class="bt"><a class="btn btn-default" href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
+          <button ><a class="btn btn-default" href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
           {{for x in paginas:}}
-            <button class="bt"><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
+            <button ><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
           {{pass}}
-          <button class="bt" disabled>Próximo</button>
+          <button  disabled>Próximo</button>
         {{elif URL(args=request.args) == URL('index/0'):}}
-        <button deisbled class="bt">Anterior</button>
+        <button deisbled >Anterior</button>
         {{for x in paginas:}}
-          <button class="bt"><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
+          <button><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
         {{pass}}
-        <button class="bt"><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
+        <button ><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
 
         {{else:}}
-            <button class="bt"><a class="btn btn-default" href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
+            <button><a href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
               {{for x in paginas:}}
-                <button class="bt"><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
+                <button><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
           {{pass}}
 
-          <button class="bt"><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
+          <button ><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
       {{pass}}
     </div>
 
@@ -121,7 +121,7 @@
                   </fieldset><br>
                   <fieldset id="inputs-eX">
                     {{=saida.custom.begin}}
-                      {{=saida.custom.widget.ID_EntradaProdutoEstoque}}
+                      {{=saida.custom.widget.ID_Estoque}}
                       {{=saida.custom.widget.Data}}
                       {{=saida.custom.widget.Quantidade}}
                     {{=saida.custom.end}}

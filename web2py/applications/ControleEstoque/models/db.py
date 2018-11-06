@@ -175,26 +175,33 @@ db.define_table('Produto',
 
 db.define_table('EntradaProdutoEstoque',
                 Field('ID_Produto', 'reference Produto'),
-                Field('Ativo', type='boolean', default=True),
                 Field('Validade', type='date'),
-                Field('Data', type='date' ),
+                Field('Data', type='date'),
                 Field('Quantidade', type='double'),
-                Field('DataDesativacao',type='date'),
                 Field('Lote'),
                 format='%(Lote)s' + ' - ' + '%(ID_Produto)s'
+                )
+
+db.define_table('Estoque',
+                Field('ID_Produto', 'reference Produto'),
+                Field('Ativo', type='boolean', default=True),
+                Field('Validade', type='date'),
+                Field('Quantidade', type='double'),
+                Field('DataDesativacao',type='date'),
+                Field('Lote')
                 )
 
 
 
 db.define_table('Kits',
                 Field('Nome'),
-                Field('ID_EntradaProdutoEstoque', 'list:reference EntradaProdutoEstoque'),
+                Field('ID_Estoque', 'list:reference Estoque'),
                 Field('QuantidadeProdutos', type='list:integer',label="Quantidade de Produtos"),
                 Field('QuantidadeKits', type='integer', label="Quantidade de Kits")
                 )
 
 db.define_table('SaidaProdutoEstoque',
-                Field('ID_EntradaProdutoEstoque', 'reference EntradaProdutoEstoque'),
+                Field('ID_Estoque', 'reference Estoque'),
                 #Field('CustoTotal', type='double'),
                 Field('Data', type='date'),
                 Field('Quantidade', type='double'),
@@ -216,7 +223,7 @@ db.Produto.CodigoBarras.requires = IS_NOT_EMPTY(error_message="Preencha este cam
 db.Produto.CodigoCacauShow.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
 db.Produto.QuantidadeMinima.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
 db.Produto.ProdutoDescricao.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
-db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque.requires = IS_NOT_EMPTY(error_message="Preencha  este campo")
+db.SaidaProdutoEstoque.ID_Estoque.requires = IS_NOT_EMPTY(error_message="Preencha  este campo")
 #db.SaidaProdutoEstoque.CustoUnitario.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
 db.SaidaProdutoEstoque.Data.requires = IS_NOT_EMPTY(error_message="Coloque a data no formata dd/mm/aaaa")
 db.SaidaProdutoEstoque.Quantidade.requires = IS_NOT_EMPTY(error_message="Preencha este campo")
@@ -238,7 +245,7 @@ db.EntradaProdutoEstoque.ID_Produto.requires = IS_IN_DB(db, db.Produto, db.Produ
 
 #db.SaidaProdutoEstoque.ID_Kits.requires = IS_IN_DB(db, db.Kits, db.Kits.Nome)
 
-db.Kits.ID_EntradaProdutoEstoque.requires = IS_IN_DB(db(db.EntradaProdutoEstoque.Ativo == True), db.EntradaProdutoEstoque,
+db.Kits.ID_Estoque.requires = IS_IN_DB(db(db.Estoque.Ativo == True), db.Estoque,
                                                      lambda r: '%s - %s' % (r.Lote, r.ID_Produto.ProdutoDescricao), multiple=True)
 
 
@@ -248,7 +255,7 @@ db.Kits.ID_EntradaProdutoEstoque.requires = IS_IN_DB(db(db.EntradaProdutoEstoque
 #Deixa a data no formato dd/mm/aaaa
 db.EntradaProdutoEstoque.Validade.requires = IS_DATE(format=T('%d/%m/%Y'))
 db.SaidaProdutoEstoque.Data.requires = IS_DATE(format=T('%d/%m/%Y'))
-db.EntradaProdutoEstoque.DataDesativacao.requires = IS_DATE(format=T('%d/%m/%Y'))
+db.Estoque.DataDesativacao.requires = IS_DATE(format=T('%d/%m/%Y'))
 
 
 
@@ -262,9 +269,9 @@ db.EntradaProdutoEstoque.Validade.widget = lambda field,value:     SQLFORM.widge
 db.EntradaProdutoEstoque.Quantidade.widget = lambda field,value:     SQLFORM.widgets.integer.widget(field,value,_placeholder='Quantidade',_class="form-control")
 db.Kits.Nome.widget = lambda field,value:     SQLFORM.widgets.string.widget(field,value,_placeholder='Nome',_class="login nome")
 db.Kits.QuantidadeKits.widget = lambda field,value:     SQLFORM.widgets.integer.widget(field,value,_placeholder='Quantidade Kits',_class="login")
-db.Kits.ID_EntradaProdutoEstoque.widget = lambda field,value:     SQLFORM.widgets.options.widget(field,value,_class="produto")
+db.Kits.ID_Estoque.widget = lambda field,value:     SQLFORM.widgets.options.widget(field,value,_class="produto")
 db.Kits.QuantidadeProdutos.widget = lambda field,value:     SQLFORM.widgets.integer.widget(field,value,_placeholder='Quantidade Produtos',_class="integer login")
-db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque.widget = lambda field,value:     SQLFORM.widgets.options.widget(field,value,_class="form-control")
+db.SaidaProdutoEstoque.ID_Estoque.widget = lambda field,value:     SQLFORM.widgets.options.widget(field,value,_class="form-control")
 db.Produto.CustoUnitario.widget = lambda field,value:     SQLFORM.widgets.double.widget(field,value,_class="form-control", _id="precoUni")
 db.SaidaProdutoEstoque.Data.widget = lambda field,value:     SQLFORM.widgets.date.widget(field,value, _class="form-control date")
 
@@ -275,8 +282,8 @@ db.EntradaProdutoEstoque.Data.default = hoje
 
 #Desativar produstos Vencidos
 
-db((db.EntradaProdutoEstoque.Quantidade == 0) & (db.EntradaProdutoEstoque.Ativo == True)).update(DataDesativacao = hoje)
-db((db.EntradaProdutoEstoque.DataDesativacao <= hoje) & (db.EntradaProdutoEstoque.Ativo == True)).update(Ativo = False)
+db((db.Estoque.Quantidade == 0) & (db.Estoque.Ativo == True)).update(DataDesativacao = hoje)
+db((db.Estoque.DataDesativacao <= hoje) & (db.Estoque.Ativo == True)).update(Ativo = False)
 
 #Configurações email
 from gluon.tools import Mail

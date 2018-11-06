@@ -18,7 +18,9 @@
         <div class="final">
           {{=relatorio.custom.widget.dataFinal}}
         </div>
-        <button class="bt" type="submit">Relatorio</button>
+        <div class="bt">
+          <button type="submit">Relatorio</button>
+        <div>
         {{=relatorio.custom.end}}
 
   </form>
@@ -31,29 +33,32 @@
             <th id="DescCamp">Tipo</th>
 
         </tr>
-        {{for produto in relat:}}
-          <tr>
-                <td id="DescProd">{{=produto.Produto.ProdutoDescricao}}</td>
-                <td id="DescProd">{{=produto.EntradaProdutoEstoque.Lote}}</td>
-                <td id="DescProd">{{=produto.EntradaProdutoEstoque.Data.strftime("%d/%m/%Y")}}</td>
-                {{if produto.TipoUnidade.TipoUnidadeDescricao == "Unidade":}}
-                  <td id="DescProd">{{=int(produto.EntradaProdutoEstoque.Quantidade)}} Uni</td>
-                {{else:}}
-                  <td id="DescProd">{{=produto.EntradaProdutoEstoque.Quantidade}} g</td>
-                {{pass}}
-                <td id="DescProd">Entrada</td>
-          </tr>
-          <tr>
-                <td id="DescProd">{{=produto.Produto.ProdutoDescricao}}</td>
-                <td id="DescProd">{{=produto.EntradaProdutoEstoque.Lote}}</td>
-                <td id="DescProd">{{=produto.SaidaProdutoEstoque.Data.strftime("%d/%m/%Y")}}</td>
-                {{if produto.TipoUnidade.TipoUnidadeDescricao == "Unidade":}}
-                  <td id="DescProd">{{=int(produto.SaidaProdutoEstoque.Quantidade)}} Uni</td>
-                {{else:}}
-                  <td id="DescProd">{{=produto.SaidaProdutoEstoque.Quantidade }} g</td>
-                {{pass}}
-                <td id="DescProd">Saida</td>
-          </tr>
+          {{for produto in tabelaEntrada:}}
+            <tr>
+                  <td id="DescProd">{{=produto.Produto.ProdutoDescricao}}</td>
+                  <td id="DescProd">{{=produto.EntradaProdutoEstoque.Lote}}</td>
+                  <td id="DescProd">{{=produto.EntradaProdutoEstoque.Data.strftime("%d/%m/%Y")}}</td>
+                  {{if produto.TipoUnidade.TipoUnidadeDescricao == "Unidade":}}
+                    <td id="DescProd">{{=int(produto.EntradaProdutoEstoque.Quantidade)}} Uni</td>
+                  {{else:}}
+                    <td id="DescProd">{{=produto.EntradaProdutoEstoque.Quantidade}} g</td>
+                  {{pass}}
+                  <td id="DescProd">Entrada</td>
+            </tr>
+            {{pass}}
+            {{for produtoS in tabelaSaida:}}
+              <tr>
+                    <td id="DescProd">{{=produtoS.Produto.ProdutoDescricao}}</td>
+                    <td id="DescProd">{{=produtoS.Estoque.Lote}}</td>
+                    <td id="DescProd">{{=produtoS.SaidaProdutoEstoque.Data.strftime("%d/%m/%Y")}}</td>
+                    {{if produtoS.TipoUnidade.TipoUnidadeDescricao == "Unidade":}}
+                      <td id="DescProd">{{=int(produtoS.SaidaProdutoEstoque.Quantidade)}} Uni</td>
+                    {{else:}}
+                      <td id="DescProd">{{=produtoS.SaidaProdutoEstoque.Quantidade }} g</td>
+                    {{pass}}
+                    <td id="DescProd">Saida</td>
+              </tr>
+
           {{pass}}
 
 
