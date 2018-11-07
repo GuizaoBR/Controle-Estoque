@@ -26,7 +26,7 @@
         </nav>
     </div>
     <div class="logado">
-      {{if auth.user:}}Login atual: {{=auth.user.first_name}} {{=auth.user.last_name}} <button class="bt"><a href="/user/logout">SAIR </a></button> <button class="bt"><a href="/user/profile"> PERFIL </a></button>{{pass}}
+      {{if auth.user:}}Login atual: {{=auth.user.first_name}} {{=auth.user.last_name}} <button class="bt"><a href="/user/logout">SAIR </a></button>{{pass}}
     </div>
     {{block conteudo}}
     {{end conteudo}}

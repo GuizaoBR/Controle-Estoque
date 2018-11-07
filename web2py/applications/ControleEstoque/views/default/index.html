@@ -31,33 +31,30 @@
 
     </table>
     <div class="paginacao">
-        {{if len(tabela) >= quantidadePagina:}}
-        <button ><a  href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
-          {{for x in paginas:}}
-            <button ><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
-          {{pass}}
-          <button ><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
 
-        {{elif len(tabela) <= quantidadePagina:}}
+        {{if len(tabela) < quantidadePagina:}}
           <button ><a class="btn btn-default" href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
           {{for x in paginas:}}
             <button ><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
           {{pass}}
           <button  disabled>Próximo</button>
-        {{elif URL(args=request.args) == URL('index/0'):}}
-        <button deisbled >Anterior</button>
+
+        {{elif len(tabela) > quantidadePagina:}}
+          <button disabled >Anterior</button>
+          {{for x in paginas:}}
+            <button><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
+          {{pass}}
+          <button><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
+
+        
+
+        {{else:}}
+        <button ><a class="btn btn-default" href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
         {{for x in paginas:}}
           <button><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
         {{pass}}
         <button ><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
 
-        {{else:}}
-            <button><a href="{{=URL(args=[paginacao - 1])}}">Anterior</a></button>
-              {{for x in paginas:}}
-                <button><a href="{{=URL(args=x-1)}}">{{=x}}</a></button>
-          {{pass}}
-
-          <button ><a href="{{=URL(args=[paginacao + 1])}}">Próximo</a></button>
       {{pass}}
     </div>
 
