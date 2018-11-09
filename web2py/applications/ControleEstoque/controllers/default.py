@@ -5,7 +5,18 @@
 # -------------------------------------------------------------------------
 import codecs
 
+from gluon.tools import Mail
 
+mail = Mail()
+
+mail.settings.server = "smtp.gmail.com:587"
+mail.settings.sender = 'djangonoreplay@gmail.com'
+mail.settings.login = 'djangonoreplay@gmail.com:GuizaoTech'
+mail.settings.tls = True
+
+from gluon.contrib.login_methods.email_auth import email_auth
+auth.settings.login_methods.append(
+    email_auth("smtp.gmail.com:587", "@gmail.com"))
 
 
 @auth.requires_login()
@@ -136,6 +147,15 @@ def index():
     SaidaP = SQLFORM(db.SaidaProdutoEstoque,hideerror=True)
 
     if SaidaP.process(onvalidation=saidaValida,formname='saida').accepted:
+        rowQuantidadeMinima = db((SaidaP.vars.ID_Estoque == db.Estoque.id) & (db.Estoque.ID_Produto == db.Produto.id)).select(db.Produto.QuantidadeMinima,
+                                                                                                                              db.Produto.ProdutoDescricao)
+        rowAviso = db(db.Estoque.id == SaidaP.vars.ID_Estoque).select(db.Estoque.Quantidade)
+        for qtd in rowQuantidadeMinima:
+            for aviso in rowAviso:
+                if qtd.QuantidadeMinima >= aviso.Quantidade:
+                    mail.send(to=['gui.germano.silva@gmail.com'],
+                          subject='Produto {} está em falta no estoque'.format(qtd.ProdutoDescricao),
+                          message='Produto {} precisa ser reposto'.format(qtd.ProdutoDescricao))
         redirect(URL("index"))
         response.flash = "Salvo"
     elif SaidaP.errors:
@@ -146,15 +166,15 @@ def index():
 
     if EntradaProdutos.process(onvalidation=entradaValida,formname='entrada').accepted:
         redirect(URL('index'))
+
         response.flash = 'Salvo'
     elif EntradaProdutos.errors:
         response.flash = 'form has errors'
     else:
         response.flash = 'please fill out the form'
 
-    mail.send(to=['gui.germano.silva@gmail.com'],
-          subject='hello',
-          message='hi there')
+
+
 
     return dict(tabela=Tabela2, entradaProdutos=EntradaProdutos, saida=SaidaP, paginacao=page, quantidadePagina = items_per_page, paginas=paginas, select=select)
 
@@ -175,12 +195,14 @@ def cadKits():
 
     return dict(cadKits=cadKits)
 
+@auth.requires_login()
 def kits():
-    TabelaKits = SQLFORM.grid(db.Kits,
-                     sortable=False,details=False,searchable=False,
-                     paginate=7, links_in_grid=False, _class="",create=False,csv=False,
-                     fields = [db.Kits.Nome, db.Kits.QuantidadeProdutos, db.Kits.QuantidadeKits])
-    return dict(tabelaKits=TabelaKits)
+
+    Kits = db().select(db.Produto.ProdutoDescricao,db.Estoque.Lote, db.Kits.QuantidadeKits, db.Kits.Nome,
+                       join=(db.Produto.on(db.Estoque.ID_Produto == db.Produto.id),
+                             db.Estoque.on(db.Kits.ID_Estoque == db.Estoque.id)))
+
+    return dict(tabelaKits=Kits)
 
 @auth.requires_login()
 def relatorio():
