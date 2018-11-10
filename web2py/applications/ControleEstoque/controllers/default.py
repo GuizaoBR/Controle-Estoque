@@ -19,6 +19,19 @@ auth.settings.login_methods.append(
     email_auth("smtp.gmail.com:587", "@gmail.com"))
 
 
+'''
+def verificaValidade():
+    validade = db(db.Estoque.Ativo == True).select(db.Produto.ProdutoDescricao, db.Estoque.Lote,
+                                                   db.Estoque.Validade,
+                                                   join=db.Produto.on(db.Estoque.ID_Produto == db.Produto.id))
+    proximoAValidade = []
+    data = date.fromordinal(hoje.toordinal + 60)
+    for produto in validade:
+        if produto.Validade <= data:
+'''        
+
+
+
 @auth.requires_login()
 def entradaValida(form):
     validade = form.vars.Validade
@@ -110,14 +123,14 @@ def index():
 
 
     paginas = []
-    pagina = 0
+    pagina = 1
     qtdPaginas = int(len(select)/items_per_page)
 
 
 
 
     while pagina <= qtdPaginas:
-        paginas.append(pagina+1)
+        paginas.append(pagina)
         pagina+=1
 
 
