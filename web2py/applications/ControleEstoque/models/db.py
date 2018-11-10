@@ -188,7 +188,8 @@ db.define_table('Estoque',
                 Field('Validade', type='date'),
                 Field('Quantidade', type='double'),
                 Field('DataDesativacao',type='date'),
-                Field('Lote')
+                Field('Lote'),
+
                 )
 
 
@@ -284,12 +285,3 @@ db.EntradaProdutoEstoque.Data.default = hoje
 
 db((db.Estoque.Quantidade == 0) & (db.Estoque.Ativo == True)).update(DataDesativacao = hoje)
 db((db.Estoque.DataDesativacao <= hoje) & (db.Estoque.Ativo == True)).update(Ativo = False)
-
-#Configurações email
-from gluon.tools import Mail
-
-mail = auth.settings.mailer
-mail.settings.server = "smtp.gmail.com:587"
-mail.settings.sender = 'gui.germano.silva@gmail.com'
-mail.settings.login = None
-mail.settings.tls = False

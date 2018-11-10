@@ -18,17 +18,21 @@ from gluon.contrib.login_methods.email_auth import email_auth
 auth.settings.login_methods.append(
     email_auth("smtp.gmail.com:587", "@gmail.com"))
 
-
-'''
-def verificaValidade():
+def validade():
     validade = db(db.Estoque.Ativo == True).select(db.Produto.ProdutoDescricao, db.Estoque.Lote,
                                                    db.Estoque.Validade,
                                                    join=db.Produto.on(db.Estoque.ID_Produto == db.Produto.id))
     proximoAValidade = []
-    data = date.fromordinal(hoje.toordinal + 60)
+    data = date.fromordinal(hoje.toordinal() + 60)
     for produto in validade:
-        if produto.Validade <= data:
-'''        
+        if produto.Estoque.Validade <= data:
+                #proximoAValidade.append([produto.Produto.ProdutoDescricao, produto.Estoque.Lote])
+            proximoAValidade.append({"Produto": produto.Produto.ProdutoDescricao, "Lote": produto.Estoque.Lote})
+
+    mail.send(to=['gui.germano.silva@gmail.com'],
+              subject='Validade',
+              message='Os seguintes produtos estão próximos da sua validade {}'.format(proximoAValidade))
+    redirect(URL("index"))
 
 
 
@@ -129,7 +133,7 @@ def index():
 
 
 
-    while pagina <= qtdPaginas:
+    while pagina <= qtdPaginas+1:
         paginas.append(pagina)
         pagina+=1
 
@@ -200,6 +204,32 @@ def cadKits():
                    buttons=['submit'])
     if cadKits.process(onvalidation=kitsVer).accepted:
         redirect(URL())
+
+        '''
+        lista = cadKits.vars.ID_Estoque
+        produtos = cadKits.vars.QuantidadeProdutos
+        tamLista = len(lista) * cadKits.vars.QuantidadeKits
+        avisoL = []
+
+        while tamLista > 0:
+            for id in range(len(lista)):
+                verifica = db((db.Estoque.id == lista[id]) & (db.Estoque.Quantidade >= produtos[id])&
+                              (db.Estoque.ID_Produto == db.Produto.id)).select(db.Produto.ProdutoDescricao,
+                                                                               db.Estoque.Lote)
+                if len(lista) > 1:
+                    for produto in verifica:
+                        avisoL.append([produto.ProdutoDescricao, produto.Lote])
+                        tamLista -= 1
+                else:
+                    for produto in verifica:
+                        avisoL.append([produto.ProdutoDescricao, produto.Lote])
+                        tamLista -= 1
+        mail.send(to=['gui.germano.silva@gmail.com'],
+              subject='Estoque',
+              message='Os produtos {} precisam ser repostos'.format(avisoL))
+        '''
+
+
         response.flash = "Salvo"
     elif cadKits.errors:
         response.flash = 'Erro'
@@ -223,13 +253,6 @@ def relatorio():
         Field("dataInicial", type="date", requires=IS_DATE(format=T('%d/%m/%Y'))),
         Field("dataFinal", type="date", requires=IS_DATE(format=T('%d/%m/%Y'))),
     )
-
-
-
-
-
-
-
 
     relatG = FORM()
     tabela = ""

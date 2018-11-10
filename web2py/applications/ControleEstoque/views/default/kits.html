@@ -1,0 +1,26 @@
+{{extend 'master.html'}}
+
+{{block head}}
+<link type="text/css" rel="stylesheet" href="{{=URL('static','css/home.css')}}"/>
+{{end block}}
+
+{{block conteudo}}
+
+<center>
+  <table id="TblProduto">
+        <tr>
+            <th id="DescCamp">KIT</th>
+            <th id="DescCamp">PRODUTOS DO KIT</th>
+            <th id="DescCamp">QUANTIDADE DO KIT</th>
+        </tr>
+        {{for produto in tabelaKits:}}
+          <tr>
+              <td id="DescProd">{{=produto.Kits.Nome}}</td>
+              <td id="DescProd">{{=produto.Produto.ProdutoDescricao}} - {{=produto.Estoque.Lote}}</td>
+              <td id="DescProd">{{=produto.Kits.QuantidadeKits}}</td>
+              <th id="DescCamp"><button>VISUALIZAR</button></th>
+          </tr>
+      {{pass}}
+
+    </table>
+</center>

@@ -1,0 +1,44 @@
+.cadastro{
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px
+
+
+}
+
+.newProd{
+  position: relative;
+  background-color: rgba(214, 209, 209, 0.753);
+  margin-left: 20%;
+  margin-right: 25%;
+  border-radius: 100px 5px;
+  border-color: rgb(87, 36, 15);
+  border-style: solid;
+  margin-top: 130px;
+  width: 60%;
+  min-width: 783px;
+}
+input{
+    outline: none;
+    font-size: 22px;
+    font-family: 'Font_Prod';
+    font-style: bold;
+    color: rgb(119, 46, 14);
+    margin: 5px
+}
+select{
+	position: relative;
+	text-align: center;
+	background-color: rgb(246, 246, 246);
+	border: none;
+	color: rgba(2, 0, 0, 0.767);
+	font-family: 'Font_Prod';
+	font-size: 22px;
+	height: 30px;
+	outline: none;
+	width: 250px;
+  margin: 5px
+
+
+}
