@@ -16,12 +16,47 @@
 
   .logado{
     position: relative;
-    top: 30px
+    top: 50px;
+		width: 30%;
   }
 
-  .logado .bt a {
-  	color: #522916f5;
-    font-size: 25px;
-    padding: 0;
-    height: 0;
-  }
+
+	.btnR{
+	  font-family: arial;
+	  font-size:14px;
+	  font-weight:700;
+	  text-transform: uppercase;
+	  border:none;
+	  border-radius: 30px;
+	  padding:10px;
+	  cursor: pointer;
+	  display:inline-block;
+	  text-decoration: none;
+
+	}
+
+	.button-green{
+		background:green;
+		color:#ffffff;
+		box-shadow:0 5px 0 #006000;
+	}
+
+	.button-green a{
+		color:#ffffff;
+	}
+
+	.button-green:hover{
+		background:#006000;
+		color:#fff;
+		box-shadow:0 5px 0 #003f00;
+	}
+
+	.button-green:active{
+		position:relative;
+		top:5px;
+		box-shadow:none;
+	}
+
+	a{
+		text-decoration: none;
+	}

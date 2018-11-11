@@ -8,21 +8,16 @@
 
 {{block conteudo}}
 <center>
-  <form action="" enctype="multipart/form-data" method="post" class="flex">
-        <label id="Inicial" for="dataInicial">Data Inicial</label>
-        <label id="Final" for="dataFinal"> Data Final</label>
-        {{=relatorio.custom.begin}}
-        <div class="inicio">
+  <form action="" enctype="multipart/form-data" method="post">
+    <div class="relatorio">
+      {{=relatorio.custom.begin}}
+          <label id="Inicial" for="dataInicial">Data Inicial</label>
+          <label id="Final" for="dataFinal"> Data Final</label><br />
           {{=relatorio.custom.widget.dataInicial}}
-        </div>
-        <div class="final">
-          {{=relatorio.custom.widget.dataFinal}}
-        </div>
-        <div class="bt">
-          <button type="submit">Relatorio</button>
-        <div>
-        {{=relatorio.custom.end}}
-
+          {{=relatorio.custom.widget.dataFinal}}<br />
+          <button class="btnR button-green" type="submit">Relatório</button>
+      {{=relatorio.custom.end}}
+    </div>
   </form>
   <table id="TblProduto">
         <tr>
@@ -60,7 +55,20 @@
               </tr>
 
           {{pass}}
+          {{for produtoV in tabelaVencido:}}
+            <tr>
+                  <td id="DescProd">{{=produtoV.Produto.ProdutoDescricao}}</td>
+                  <td id="DescProd">{{=produtoV.Estoque.Lote}}</td>
+                  <td id="DescProd">{{=produtoV.Estoque.DataDesativacao.strftime("%d/%m/%Y")}}</td>
+                  {{if produtoV.TipoUnidade.TipoUnidadeDescricao == "Unidade":}}
+                    <td id="DescProd">{{=int(produtoV.Estoque.Quantidade)}} Uni</td>
+                  {{else:}}
+                    <td id="DescProd">{{=produtoV.Estoque.Quantidade }} g</td>
+                  {{pass}}
+                  <td id="DescProd">Vencido</td>
+            </tr>
 
+          {{pass}}
 
 
     </table>

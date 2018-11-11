@@ -27,14 +27,14 @@ body{
     margin-top: -150px;
     width: 60%;
 }
-a{
+.navCacau{
     text-decoration: none;
     color: #522916f5;
     padding: 15px;
     height: 100px;
     font-style: normal;}
 
-#nav a:hover{
+#nav .navCacau:hover{
     color: #75402880;
     transition: 400ms;
 }

@@ -154,7 +154,7 @@ if configuration.get('scheduler.enabled'):
 # -------------------------------------------------------------------------
 # auth.enable_record_versioning(db)
 
-db = DAL("sqlite://storage.sqlite", lazy_tables=False)
+db = DAL("mysql://guilherme:GuizaoT&ch18@localhost/ControleEstoque",db_codec ='UTF-8')
 auth = Auth(db)
 auth.define_tables(username=False, signature=False)
 
@@ -265,9 +265,9 @@ db.Estoque.DataDesativacao.requires = IS_DATE(format=T('%d/%m/%Y'))
 db.EntradaProdutoEstoque.ID_Produto.widget = SQLFORM.widgets.autocomplete(request, db.Produto.ProdutoDescricao,id_field=db.Produto.id)
 
 #db.EntradaProdutoEstoque.ID_Produto.widget = SQLFORM.widgets.autocomplete(request, db.Produto.ProdutoDescricao)
-db.EntradaProdutoEstoque.Lote.widget = lambda field,value:     SQLFORM.widgets.integer.widget(field,value,_placeholder="Lote",_class="form-control")
-db.EntradaProdutoEstoque.Validade.widget = lambda field,value:     SQLFORM.widgets.date.widget(field,value,_placeholder='Validade',_class="form-control date",)
-db.EntradaProdutoEstoque.Quantidade.widget = lambda field,value:     SQLFORM.widgets.integer.widget(field,value,_placeholder='Quantidade',_class="form-control")
+db.EntradaProdutoEstoque.Lote.widget = lambda field,value:     SQLFORM.widgets.integer.widget(field,value,_placeholder="Lote",_class="form-control entrada")
+db.EntradaProdutoEstoque.Validade.widget = lambda field,value:     SQLFORM.widgets.date.widget(field,value,_placeholder='Validade',_class="form-control date entrada",)
+db.EntradaProdutoEstoque.Quantidade.widget = lambda field,value:     SQLFORM.widgets.integer.widget(field,value,_placeholder='Quantidade',_class="form-control entrada")
 db.Kits.Nome.widget = lambda field,value:     SQLFORM.widgets.string.widget(field,value,_placeholder='Nome',_class="login nome")
 db.Kits.QuantidadeKits.widget = lambda field,value:     SQLFORM.widgets.integer.widget(field,value,_placeholder='Quantidade Kits',_class="login")
 db.Kits.ID_Estoque.widget = lambda field,value:     SQLFORM.widgets.options.widget(field,value,_class="produto")

@@ -3,10 +3,9 @@
 # This is a sample controller
 # this file is released under public domain and you can use without limitations
 # -------------------------------------------------------------------------
-import codecs
-
+import io
 from gluon.tools import Mail
-
+import time
 mail = Mail()
 
 mail.settings.server = "smtp.gmail.com:587"
@@ -18,6 +17,7 @@ from gluon.contrib.login_methods.email_auth import email_auth
 auth.settings.login_methods.append(
     email_auth("smtp.gmail.com:587", "@gmail.com"))
 
+
 def validade():
     validade = db(db.Estoque.Ativo == True).select(db.Produto.ProdutoDescricao, db.Estoque.Lote,
                                                    db.Estoque.Validade,
@@ -28,11 +28,17 @@ def validade():
         if produto.Estoque.Validade <= data:
                 #proximoAValidade.append([produto.Produto.ProdutoDescricao, produto.Estoque.Lote])
             proximoAValidade.append({"Produto": produto.Produto.ProdutoDescricao, "Lote": produto.Estoque.Lote})
+    texto = ""
+    for x in proximoAValidade:
+        texto += "{} - {}\n".format(x["Produto"], x["Lote"])
 
     mail.send(to=['gui.germano.silva@gmail.com'],
               subject='Validade',
-              message='Os seguintes produtos estão próximos da sua validade {}'.format(proximoAValidade))
-    redirect(URL("index"))
+              message="Os seguintes produtos estão próximos da sua data de validade:\n" + texto)
+    redirect(URL('index'))
+
+    #time.sleep(30)
+
 
 
 
@@ -42,6 +48,7 @@ def entradaValida(form):
     produto = form.vars.ID_Produto
     quantidade = form.vars.Quantidade
     lote = form.vars.Lote
+
 
     if validade >= hoje:
         desativar = date.fromordinal(validade.toordinal()+1)
@@ -79,6 +86,7 @@ def cadPVer(form):
     pass
 
 
+#validade()
 
 @auth.requires_login()
 def index():
@@ -240,12 +248,17 @@ def cadKits():
 
 @auth.requires_login()
 def kits():
+    subQuery = db().select(db.Produto.ProdutoDescricao, db.Estoque.Lote,
+                             join=(db.Estoque.on(db.Kits.ID_Estoque.contains(db.Estoque.id)),
+                                   db.Produto.on(db.Estoque.ID_Produto == db.Produto.id)),
+                                   )
 
     Kits = db().select(db.Produto.ProdutoDescricao,db.Estoque.Lote, db.Kits.QuantidadeKits, db.Kits.Nome,
-                       join=(db.Produto.on(db.Estoque.ID_Produto == db.Produto.id),
-                             db.Estoque.on(db.Kits.ID_Estoque == db.Estoque.id)))
+                       db.Kits.ID_Estoque,
+                       join=(db.Estoque.on(db.Kits.ID_Estoque.contains(db.Estoque.id)),
+                             db.Produto.on(db.Estoque.ID_Produto == db.Produto.id)))
 
-    return dict(tabelaKits=Kits)
+    return dict(tabelaKits=Kits, listaProdutos=subQuery)
 
 @auth.requires_login()
 def relatorio():
@@ -259,6 +272,7 @@ def relatorio():
     gerar = ""
     tabelaEntrada = ""
     tabelaSaida = ""
+    tabelaVencido = ""
     '''
     db.SaidaProdutoEstoque.ID_EntradaProdutoEstoque.requires = IS_IN_DB(db, db.EntradaProdutoEstoque,
                                                                         lambda r: '%s - %s' % (r.Lote, r.ID_Produto.ProdutoDescricao))
@@ -270,33 +284,33 @@ def relatorio():
 
 
 
-        tabelaSelect = ((db.EntradaProdutoEstoque.Data >= inicio) & (db.EntradaProdutoEstoque.Data <= fim) &
-                        (db.SaidaProdutoEstoque.Data >= inicio) & (db.SaidaProdutoEstoque.Data <= fim))
 
-        tabela = db(tabelaSelect).select(db.Produto.ProdutoDescricao, db.EntradaProdutoEstoque.Data, db.EntradaProdutoEstoque.Quantidade,
-                                     db.SaidaProdutoEstoque.Quantidade, db.SaidaProdutoEstoque.Data,
-                                     db.TipoUnidade.TipoUnidadeDescricao, db.EntradaProdutoEstoque.Lote, db.Produto.id,
-                                     db.EntradaProdutoEstoque.id, db.SaidaProdutoEstoque.ID_Estoque,
-                                     join=(db.Produto.on(db.EntradaProdutoEstoque.ID_Produto == db.Produto.id),
-                                           db.TipoUnidade.on(db.Produto.ID_TipoUnidade == db.TipoUnidade.id),
-                                           db.Estoque.on(db.SaidaProdutoEstoque.ID_Estoque == db.EntradaProdutoEstoque.id)),
-                                    orderby=db.EntradaProdutoEstoque.Data | db.SaidaProdutoEstoque.Data)
+
 
         tabelaSelectEntrada = ((db.EntradaProdutoEstoque.Data >= inicio) & (db.EntradaProdutoEstoque.Data <= fim))
         tabelaSelectSaida = ((db.SaidaProdutoEstoque.Data >= inicio) & (db.SaidaProdutoEstoque.Data <= fim))
+        tabelaSelectVencido = ((db.Estoque.DataDesativacao >= inicio) & (db.Estoque.DataDesativacao <= fim)&
+                               (db.Estoque.Quantidade > 0) & (db.Estoque.Ativo == False))
         tabelaEntrada = db(tabelaSelectEntrada).select(db.Produto.ProdutoDescricao, db.EntradaProdutoEstoque.Data, db.EntradaProdutoEstoque.Quantidade,
                                      db.TipoUnidade.TipoUnidadeDescricao, db.EntradaProdutoEstoque.Lote, db.Produto.id,
                                      db.EntradaProdutoEstoque.id,
-                                     join=(db.Produto.on(db.EntradaProdutoEstoque.ID_Produto == db.Produto.id),
-                                           db.TipoUnidade.on(db.Produto.ID_TipoUnidade == db.TipoUnidade.id)),
+                                     join=(db.Produto.on(db.Produto.ID_TipoUnidade == db.TipoUnidade.id),
+                                         db.EntradaProdutoEstoque.on(db.EntradaProdutoEstoque.ID_Produto == db.Produto.id)),
                                     orderby=db.EntradaProdutoEstoque.Data)
+
         tabelaSaida = db(tabelaSelectSaida).select(db.Produto.ProdutoDescricao, db.SaidaProdutoEstoque.Quantidade,
                                      db.SaidaProdutoEstoque.Data, db.TipoUnidade.TipoUnidadeDescricao,
                                      db.Estoque.Lote, db.Produto.id, db.Estoque.id, db.SaidaProdutoEstoque.ID_Estoque,
-                                     join=(db.Produto.on(db.Estoque.ID_Produto == db.Produto.id),
-                                           db.TipoUnidade.on(db.Produto.ID_TipoUnidade == db.TipoUnidade.id),
-                                           db.Estoque.on(db.SaidaProdutoEstoque.ID_Estoque == db.Estoque.id)),
+                                     join=(db.Produto.on(db.Produto.ID_TipoUnidade == db.TipoUnidade.id),
+                                           db.Estoque.on(db.Estoque.ID_Produto == db.Produto.id),
+                                           db.SaidaProdutoEstoque.on(db.SaidaProdutoEstoque.ID_Estoque == db.Estoque.id)),
                                     orderby=db.SaidaProdutoEstoque.Data)
+        tabelaVencido = db(tabelaSelectVencido).select(db.Produto.ProdutoDescricao, db.Estoque.DataDesativacao, db.Estoque.Quantidade,
+                                     db.TipoUnidade.TipoUnidadeDescricao, db.Estoque.Lote, db.Produto.id,
+                                     db.Estoque.id,
+                                     join=(db.Produto.on(db.Produto.ID_TipoUnidade == db.TipoUnidade.id),
+                                         db.Estoque.on(db.Estoque.ID_Produto == db.Produto.id)),
+                                    orderby=db.Estoque.DataDesativacao)
 
 
         '''
@@ -306,7 +320,8 @@ def relatorio():
 
 
 
-        gerar = FORM(INPUT(_type="submit", _value="Gerar relatorio"))
+        gerar = FORM(INPUT(_type="submit", _value="Gerar relatório",
+                           _class="btnR button-green"))
 
         if gerar.process().accepted:
             arquivo = open("accepted.csv", "w")
@@ -317,16 +332,20 @@ def relatorio():
             arquivo.write("errors")
             arquivo.close()
         else:
-            arquivo = codecs.open("Relatorio.csv", encoding='utf-8' , mode="w")
-            arquivo.write("Produto; Lote; Data; Quantidade; Tipo; Movimento\n")
-            for produto in tabelaEntrada:
-                arquivo.write(str(produto.Produto.ProdutoDescricao) + ";" + str(produto.EntradaProdutoEstoque.Lote) + ";"+
-                              str(produto.EntradaProdutoEstoque.Data.strftime("%d/%m/%Y")) + ";" + str(produto.EntradaProdutoEstoque.Quantidade) +";"+
-                              "Entrada;"+str(produto.TipoUnidade.TipoUnidadeDescricao) +"\n")
-            for produto in tabelaSaida:
-                arquivo.write(str(produto.Produto.ProdutoDescricao) + ";" + str(produto.Estoque.Lote) + ";" +
-                              str(produto.SaidaProdutoEstoque.Data.strftime("%d/%m/%Y")) + ";" + str(produto.SaidaProdutoEstoque.Quantidade) +";"+
-                              "Saida;"+str(produto.TipoUnidade.TipoUnidadeDescricao)+"\n")
+            with open("Relatorio.csv", mode="w", encoding='utf-8') as arquivo:
+                arquivo.write("Produto; Lote; Data; Quantidade; Tipo; Movimento\n")
+                for produto in tabelaEntrada:
+                    arquivo.write(str(produto.Produto.ProdutoDescricao) + ";" + str(produto.EntradaProdutoEstoque.Lote) + ";"+
+                                  str(produto.EntradaProdutoEstoque.Data.strftime("%d/%m/%Y")) + ";" + str(produto.EntradaProdutoEstoque.Quantidade) +";"+
+                                  str(produto.TipoUnidade.TipoUnidadeDescricao) +";"+"Entrada;"+"\n")
+                for produto in tabelaSaida:
+                    arquivo.write(str(produto.Produto.ProdutoDescricao) + ";" + str(produto.Estoque.Lote) + ";" +
+                                  str(produto.SaidaProdutoEstoque.Data.strftime("%d/%m/%Y")) + ";" + str(produto.SaidaProdutoEstoque.Quantidade) +";"+
+                                  str(produto.TipoUnidade.TipoUnidadeDescricao)+";"+"Saida;""\n")
+                for produto in tabelaVencido:
+                    arquivo.write(str(produto.Produto.ProdutoDescricao) + ";" + str(produto.Estoque.Lote) + ";"+
+                                  str(produto.Estoque.DataDesativacao.strftime("%d/%m/%Y")) + ";" + str(produto.Estoque.Quantidade) +";"+
+                                  str(produto.TipoUnidade.TipoUnidadeDescricao) +";"+"Vencido;"+"\n")
 
 
     elif relatorio.errors:
@@ -334,7 +353,7 @@ def relatorio():
     else:
         response.flash = "Preencha todos os campos"
 
-    return dict(relatorio=relatorio, tabelaEntrada=tabelaEntrada, tabelaSaida=tabelaSaida, gerar=gerar)
+    return dict(relatorio=relatorio, tabelaEntrada=tabelaEntrada, tabelaSaida=tabelaSaida, gerar=gerar, tabelaVencido=tabelaVencido)
 
 @auth.requires_login()
 def cadProdutos():

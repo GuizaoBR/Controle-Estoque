@@ -9,19 +9,20 @@
 {{block conteudo}}
 
 <center>
-  <form class="login" action="#" enctype="multipart/form-data" method="post">
-    <div>
-      {{=form.custom.begin}}
-        <div class="usuario">
-          {{=form.custom.widget.email}}
+  <div class="login-page">
+    <div class="form">
+      <form class="login-form" action="#" enctype="multipart/form-data" method="post">
+        <i class="fa fa-user icon"></i>
+        <div>
+          {{=form.custom.begin}}
+            {{=form.custom.widget.email}}
+            {{=form.custom.widget.password}}
+            <button type="submit">Login</button>
+          {{=form.custom.end}}
         </div>
-        <div class="senha">
-          {{=form.custom.widget.password}}
-        </div>
-        <button class="bt" type="submit">Login</button>
-      {{=form.custom.end}}
+      </form>
     </div>
-</form>
+</div>
 
 </center>
     {{block page_js}}
