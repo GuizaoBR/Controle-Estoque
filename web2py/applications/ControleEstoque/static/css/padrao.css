@@ -5,6 +5,27 @@
   }
 
 
+
+	.TblProduto{
+	    background-color: #0000008a;
+	    color: #ffffff;
+	    text-align: center;
+	    font-family: 'Font_Prod';
+	    font-size:20px;
+	    margin-top: 130px;
+	    width: 85%;
+	    margin-left: 7.5%;
+			margin-right: 7.5%;
+	    border-collapse: collapse;
+	    border-radius: 20px;
+
+	}
+
+	tr:nth-child(even) {
+	    background-color: #dddddd57;
+
+	}
+
 .error{
   color: red;
   font-weight: bolder;
@@ -15,11 +36,19 @@
 
 
   .logado{
+		font-family: 'Font_Prod';
     position: relative;
     top: 50px;
 		width: 30%;
+		font-size: 20px;
+		color: #ffffff
   }
 
+	button a{
+		text-decoration: none  ;!important
+		outline: none;
+
+	}
 
 	.btnR{
 	  font-family: arial;
@@ -31,7 +60,11 @@
 	  padding:10px;
 	  cursor: pointer;
 	  display:inline-block;
-	  text-decoration: none;
+	  text-decoration: none; !important
+		border: none;
+		outline: none;
+
+
 
 	}
 
@@ -39,24 +72,41 @@
 		background:green;
 		color:#ffffff;
 		box-shadow:0 5px 0 #006000;
+		text-decoration: none;
+		border: none;
+		outline: none;
+
+
 	}
 
 	.button-green a{
 		color:#ffffff;
+		border: none;
+		outline: none;
+
+
 	}
 
 	.button-green:hover{
 		background:#006000;
 		color:#fff;
 		box-shadow:0 5px 0 #003f00;
+		border: none;
+		outline: none;
+
+
 	}
 
 	.button-green:active{
 		position:relative;
 		top:5px;
 		box-shadow:none;
+		border: none;
+		outline: none;
+
 	}
 
 	a{
 		text-decoration: none;
+		outline: none;
 	}

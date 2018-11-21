@@ -154,7 +154,7 @@ if configuration.get('scheduler.enabled'):
 # -------------------------------------------------------------------------
 # auth.enable_record_versioning(db)
 
-db = DAL("mysql://guilherme:GuizaoT&ch18@localhost/ControleEstoque",db_codec ='UTF-8')
+db = DAL("mysql://guilherme:GuizaoT&ch18@localhost/Estoque")
 auth = Auth(db)
 auth.define_tables(username=False, signature=False)
 
@@ -164,11 +164,12 @@ db.define_table('TipoUnidade',
                 )
 
 db.define_table('Produto',
-                Field('ID_TipoUnidade', 'reference TipoUnidade', requires=IS_IN_SET(['Unidade', 'Gramas'])),
-                Field('CodigoBarras', type='integer'),
-                Field('CodigoCacauShow', type='integer'),
-                Field('CustoUnitario', type='double'),
-                Field('QuantidadeMinima', type='double'),
+                Field('ID_TipoUnidade', 'reference TipoUnidade', requires=IS_IN_SET(['Unidade', 'Gramas']), label="Tipo"),
+                Field('CodigoBarras', type='integer', label="Código de Barras"),
+                Field('CodigoCacauShow', type='integer', label="Código Cacau Show"),
+                Field('CustoUnitario', type='double', label="Custo Unitário"),
+                Field('QuantidadeMinima', type='double', label="Quantidade Minima"),
+                Field('QuantidadeTotal', type='double', default=0, writable=False, label="Quantidade Total"),
                 Field('ProdutoDescricao', type='string', label='Produto'),
                 format='%(ProdutoDescricao)s'
                 )
@@ -207,7 +208,6 @@ db.define_table('SaidaProdutoEstoque',
                 Field('Data', type='date'),
                 Field('Quantidade', type='double'),
                 )
-
 
 
 

@@ -1,0 +1,10 @@
+{{extend 'master.html'}}
+
+{{block head}}
+  <link type="text/css" rel="stylesheet" href="{{=URL('static','css/produtos.css')}}"/>
+{{end block}}
+
+
+{{block conteudo}}
+  {{=listaProdutos}}
+{{end conteudo}}

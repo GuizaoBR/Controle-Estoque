@@ -18,27 +18,27 @@ auth.settings.login_methods.append(
     email_auth("smtp.gmail.com:587", "@gmail.com"))
 
 
+
+
 def validade():
-    validade = db(db.Estoque.Ativo == True).select(db.Produto.ProdutoDescricao, db.Estoque.Lote,
-                                                   db.Estoque.Validade,
-                                                   join=db.Produto.on(db.Estoque.ID_Produto == db.Produto.id))
-    proximoAValidade = []
-    data = date.fromordinal(hoje.toordinal() + 60)
-    for produto in validade:
-        if produto.Estoque.Validade <= data:
-                #proximoAValidade.append([produto.Produto.ProdutoDescricao, produto.Estoque.Lote])
-            proximoAValidade.append({"Produto": produto.Produto.ProdutoDescricao, "Lote": produto.Estoque.Lote})
-    texto = ""
-    for x in proximoAValidade:
-        texto += "{} - {}\n".format(x["Produto"], x["Lote"])
+        validade = db(db.Estoque.Ativo == True).select(db.Produto.ProdutoDescricao, db.Estoque.Lote,
+                                                       db.Estoque.Validade,
+                                                       join=db.Produto.on(db.Estoque.ID_Produto == db.Produto.id))
+        proximoAValidade = []
+        data = date.fromordinal(hoje.toordinal() + 60)
+        for produto in validade:
+            if produto.Estoque.Validade <= data:
+                        #proximoAValidade.append([produto.Produto.ProdutoDescricao, produto.Estoque.Lote])
+                proximoAValidade.append({"Produto": produto.Produto.ProdutoDescricao, "Lote": produto.Estoque.Lote})
+        texto = ""
+        for x in proximoAValidade:
+            texto += "{} - {}\n".format(x["Produto"], x["Lote"])
 
-    mail.send(to=['gui.germano.silva@gmail.com'],
-              subject='Validade',
-              message="Os seguintes produtos estão próximos da sua data de validade:\n" + texto)
-    redirect(URL('index'))
+        mail.send(to=['gui.germano.silva@gmail.com'],
+                  subject='Validade',
+                  message="Os seguintes produtos estão próximos da sua data de validade:\n" + texto)
 
-    #time.sleep(30)
-
+        redirect(URL("index"))
 
 
 
@@ -74,6 +74,7 @@ def kitsVer(form):
     while tamLista > 0:
         for produto in range(len(lista)):
             verifica = db((db.Estoque.id == lista[produto]) & (db.Estoque.Quantidade >= produtos[produto]))
+
             if verifica and len(lista)  > 1:
                 verifica.update(Quantidade = db.Estoque.Quantidade - produtos[produto])
                 tamLista -= 1
@@ -92,7 +93,7 @@ def cadPVer(form):
 def index():
 
     db.SaidaProdutoEstoque.ID_Estoque.requires = IS_IN_DB(db(db.Estoque.Ativo == True), db.Estoque,
-                                                                        lambda r: '%s - %s' % (r.Lote, r.ID_Produto.ProdutoDescricao))
+                                                            lambda r: '%s - %s' % (r.Lote, r.ID_Produto.ProdutoDescricao))
 
 
     '''
@@ -172,15 +173,18 @@ def index():
     SaidaP = SQLFORM(db.SaidaProdutoEstoque,hideerror=True)
 
     if SaidaP.process(onvalidation=saidaValida,formname='saida').accepted:
-        rowQuantidadeMinima = db((SaidaP.vars.ID_Estoque == db.Estoque.id) & (db.Estoque.ID_Produto == db.Produto.id)).select(db.Produto.QuantidadeMinima,
-                                                                                                                              db.Produto.ProdutoDescricao)
-        rowAviso = db(db.Estoque.id == SaidaP.vars.ID_Estoque).select(db.Estoque.Quantidade)
-        for qtd in rowQuantidadeMinima:
-            for aviso in rowAviso:
-                if qtd.QuantidadeMinima >= aviso.Quantidade:
-                    mail.send(to=['gui.germano.silva@gmail.com'],
-                          subject='Produto {} está em falta no estoque'.format(qtd.ProdutoDescricao),
-                          message='Produto {} precisa ser reposto'.format(qtd.ProdutoDescricao))
+        rowQuantidadeMinima = db((SaidaP.vars.ID_Estoque == db.Estoque.id) & (db.Estoque.ID_Produto == db.Produto.id))
+        quantidadeTotal = db((SaidaP.vars.ID_Estoque == db.Estoque.id) & (db.Estoque.ID_Produto == db.Produto.id)).select(db.Produto.ALL).first()
+        quantidadeTotal.update_record(QuantidadeTotal = db.Produto.QuantidadeTotal - SaidaP.vars.Quantidade)
+
+        for qtd in rowQuantidadeMinima.select(db.Produto.QuantidadeMinima,db.Produto.ProdutoDescricao,
+                                              db.Produto.QuantidadeTotal):
+
+            if qtd.QuantidadeMinima >= qtd.QuantidadeTotal:
+                mail.send(to=['gui.germano.silva@gmail.com'],
+                          subject='Estoque',
+                          message="O produto {} está acabando".format(qtd.Produto.ProdutoDescricao))
+
         redirect(URL("index"))
         response.flash = "Salvo"
     elif SaidaP.errors:
@@ -190,6 +194,14 @@ def index():
 
 
     if EntradaProdutos.process(onvalidation=entradaValida,formname='entrada').accepted:
+        quantidadeTotal = db(db.Produto.id == EntradaProdutos.vars.ID_Produto)
+        for produto in quantidadeTotal.select(db.Produto.QuantidadeTotal):
+            if produto.QuantidadeTotal != None:
+                quantidadeTotal.update(QuantidadeTotal = db.Produto.QuantidadeTotal + EntradaProdutos.vars.Quantidade)
+            else:
+                quantidadeTotal.update(QuantidadeTotal = EntradaProdutos.vars.Quantidade)
+
+
         redirect(URL('index'))
 
         response.flash = 'Salvo'
@@ -211,31 +223,46 @@ def cadKits():
                    labels ={"ID_Estoque":"", "Nome":"", "QuantidadeKits":"", "QuantidadeProdutos":""},
                    buttons=['submit'])
     if cadKits.process(onvalidation=kitsVer).accepted:
-        redirect(URL())
 
-        '''
         lista = cadKits.vars.ID_Estoque
         produtos = cadKits.vars.QuantidadeProdutos
         tamLista = len(lista) * cadKits.vars.QuantidadeKits
+
         avisoL = []
 
+        alerta = 0
+
+        for id in range(len(lista)):
+            quantidadeTotal = db((db.Estoque.id == lista[id]) & (db.Estoque.ID_Produto == db.Produto.id)).select(db.Produto.ALL).first()
+            quantidadeTotal.update_record(QuantidadeTotal = db.Produto.QuantidadeTotal - produtos[id])
         while tamLista > 0:
             for id in range(len(lista)):
-                verifica = db((db.Estoque.id == lista[id]) & (db.Estoque.Quantidade >= produtos[id])&
-                              (db.Estoque.ID_Produto == db.Produto.id)).select(db.Produto.ProdutoDescricao,
-                                                                               db.Estoque.Lote)
-                if len(lista) > 1:
-                    for produto in verifica:
-                        avisoL.append([produto.ProdutoDescricao, produto.Lote])
+                verifica = db((db.Estoque.id == lista[id])&(db.Estoque.ID_Produto == db.Produto.id)).select(db.Produto.ProdutoDescricao,
+                                                                                                            db.Produto.QuantidadeMinima,
+                                                                                                            db.Produto.QuantidadeTotal)
+
+
+                for produto in verifica:
+                    if produto.QuantidadeMinima >= produto.QuantidadeTotal:
+                        if len(lista) > 1:
+                            avisoL.append({"Produto": produto.ProdutoDescricao})
+                            tamLista -= 1
+                        else:
+                            avisoL.append({"Produto": produto.ProdutoDescricao})
+                            tamLista -= 1
+                    else:
                         tamLista -= 1
-                else:
-                    for produto in verifica:
-                        avisoL.append([produto.ProdutoDescricao, produto.Lote])
-                        tamLista -= 1
-        mail.send(to=['gui.germano.silva@gmail.com'],
-              subject='Estoque',
-              message='Os produtos {} precisam ser repostos'.format(avisoL))
-        '''
+
+        if len(avisoL) > 0:
+            texto = ""
+            for x in avisoL:
+                texto += "{}\n".format(x["Produto"])
+
+            mail.send(to=['gui.germano.silva@gmail.com'],
+                  subject='Estoque',
+                  message='Os seguintes produtos estão acabando\n' + texto)
+        redirect(URL())
+
 
 
         response.flash = "Salvo"
@@ -248,17 +275,19 @@ def cadKits():
 
 @auth.requires_login()
 def kits():
+    '''
     subQuery = db().select(db.Produto.ProdutoDescricao, db.Estoque.Lote,
                              join=(db.Estoque.on(db.Kits.ID_Estoque.contains(db.Estoque.id)),
                                    db.Produto.on(db.Estoque.ID_Produto == db.Produto.id)),
                                    )
+    '''
 
     Kits = db().select(db.Produto.ProdutoDescricao,db.Estoque.Lote, db.Kits.QuantidadeKits, db.Kits.Nome,
                        db.Kits.ID_Estoque,
                        join=(db.Estoque.on(db.Kits.ID_Estoque.contains(db.Estoque.id)),
                              db.Produto.on(db.Estoque.ID_Produto == db.Produto.id)))
 
-    return dict(tabelaKits=Kits, listaProdutos=subQuery)
+    return dict(tabelaKits=Kits)
 
 @auth.requires_login()
 def relatorio():
@@ -369,6 +398,35 @@ def cadProdutos():
         response.flash = "Preencha todos os campos"
 
     return(dict(cadP=cadP))
+
+@auth.requires_login()
+def produtos():
+    produtos = SQLFORM.grid(db.Produto, searchable=False,csv=False,links_in_grid=False,
+                            sortable=False, create=False,details=False,_class="",
+                            fields=[db.Produto.ProdutoDescricao,
+                                    db.Produto.ID_TipoUnidade,
+                                    db.Produto.QuantidadeTotal,
+                                    db.Produto.CodigoBarras,
+                                    db.Produto.CodigoCacauShow,
+                                    db.Produto.QuantidadeMinima],
+                            headers={"Produto.ProdutoDescricao": "Produto ",
+                                     "Produto.ID_TipoUnidade": "Tipo ",
+                                     "Produto.QuantidadeTotal": "Quantidade Total ",
+                                     "Produto.CodigoBarras":"Código de Barras ",
+                                     "Produto.CodigoCacauShow": "Código Cacau Show ",
+                                     "Produto.QuantidadeMinima": "Quantidade Minima "},
+                            )
+    produtos.element('.web2py_counter', replace=None)
+    produtos.element('.web2py_console', replace=None)
+    if produtos.element("table"):
+        produtos.element("table")["_class"] = "TblProduto"
+    else:
+        produtos.element("div")["_class"] = "TblProduto"
+
+
+
+
+    return(dict(listaProdutos=produtos))
 
 
 # ---- API (example) -----

@@ -4,7 +4,6 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{{=URL('static','css/calendar.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{=URL('static','css/web2py.css')}}" rel="stylesheet" type="text/css"/>
     <link type="text/css" rel="stylesheet"href="{{=URL('static','css/padrao_Nav.css')}}">
     <link type="text/css" rel="stylesheet"href="{{=URL('static','css/padrao.css')}}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
@@ -24,11 +23,13 @@
                 <a class="navCacau" href="{{=URL('index')}}">Controle de Estoque</a>
                 <a class="navCacau" href="{{=URL('relatorio')}}">Relatório</a>
                 <a class="navCacau" href="{{=URL('cadProdutos')}}">Cadastro de Novos Produtos</a>
+                <a class="navCacau" href="{{=URL('produtos')}}">Produtos</a>
+
             </ul>
         </nav>
     </div>
     <div class="logado">
-      Login atual: {{=auth.user.first_name}} {{=auth.user.last_name}} <button class="btnR button-green"><a href="/user/logout">SAIR </a></button>
+      {{=auth.user.first_name}} {{=auth.user.last_name}} <button class="btnR button-green"><a href="/user/logout">SAIR </a></button>
     </div>
     {{else:}}
       <div class="logo">

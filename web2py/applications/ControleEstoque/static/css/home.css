@@ -6,20 +6,7 @@
 	font-family: 'Font_Prod';
     src: url("../fonts/CANDARA.TTF");
   }
-#TblProduto{
-    background-color: #0000008a;
-    color: #ffffff;
-    text-align: center;
-    font-family: 'Font_Prod';
-    font-size:20px;
-    margin-top: 130px;
-    width: 85%;
-    margin-left: 7.5%;
-		margin-right: 7.5%;
-    border-collapse: collapse;
-    border-radius: 20px;
 
-}
 
 .paginacao{
 	margin-top: 40px;
@@ -35,10 +22,7 @@
 }
 
 
-tr:nth-child(even) {
-    background-color: #dddddd57;
 
-}
 
 
 /*
@@ -307,7 +291,6 @@ input[type='text']{
 }
 
 #inputs-eX > .error > .erro {
-    flex-basis: 27%;
     position: relative;
-    left: 10%;
+    left: 11%;
 }
