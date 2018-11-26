@@ -14,13 +14,11 @@ mail.settings.login = 'djangonoreplay@gmail.com:GuizaoTech'
 mail.settings.tls = True
 
 from gluon.contrib.login_methods.email_auth import email_auth
-auth.settings.login_methods.append(
-    email_auth("smtp.gmail.com:587", "@gmail.com"))
 
 
 
 
-def validade():
+def validadeManual():
         validade = db(db.Estoque.Ativo == True).select(db.Produto.ProdutoDescricao, db.Estoque.Lote,
                                                        db.Estoque.Validade,
                                                        join=db.Produto.on(db.Estoque.ID_Produto == db.Produto.id))
@@ -39,6 +37,28 @@ def validade():
                   message="Os seguintes produtos estão próximos da sua data de validade:\n" + texto)
 
         redirect(URL("index"))
+
+
+def validade():
+        validade = db(db.Estoque.Ativo == True).select(db.Produto.ProdutoDescricao, db.Estoque.Lote,
+                                                       db.Estoque.Validade,
+                                                       join=db.Produto.on(db.Estoque.ID_Produto == db.Produto.id))
+        proximoAValidade = []
+        data = date.fromordinal(hoje.toordinal() + 60)
+        for produto in validade:
+            if produto.Estoque.Validade <= data:
+                        #proximoAValidade.append([produto.Produto.ProdutoDescricao, produto.Estoque.Lote])
+                proximoAValidade.append({"Produto": produto.Produto.ProdutoDescricao, "Lote": produto.Estoque.Lote})
+        texto = ""
+        for x in proximoAValidade:
+            texto += "{} - {}\n".format(x["Produto"], x["Lote"])
+
+        db.email.insert(status='pending',
+            email='gui.germano.silva@gmail.com',
+            assunto='Validade',
+            mensagem="Os seguintes produtos estão próximos da sua data de validade:\n" + texto)
+
+
 
 
 
@@ -109,6 +129,7 @@ def index():
         start = (page-1)*5
         end = page*5
     '''
+
     if len(request.args):
         page = int(request.args[0])
     else:
@@ -119,6 +140,7 @@ def index():
 
 
     #Tabela mostrando os produtos
+
     Tabela2 = db(db.Estoque.Ativo == True).select(db.Produto.ProdutoDescricao,db.TipoUnidade.TipoUnidadeDescricao, db.Estoque.Lote,
                                                                 db.Estoque.Validade, db.Estoque.Quantidade,
                                                                 join=(db.Produto.on(db.Estoque.ID_Produto == db.Produto.id),
@@ -275,19 +297,35 @@ def cadKits():
 
 @auth.requires_login()
 def kits():
-    '''
     subQuery = db().select(db.Produto.ProdutoDescricao, db.Estoque.Lote,
                              join=(db.Estoque.on(db.Kits.ID_Estoque.contains(db.Estoque.id)),
                                    db.Produto.on(db.Estoque.ID_Produto == db.Produto.id)),
                                    )
-    '''
 
-    Kits = db().select(db.Produto.ProdutoDescricao,db.Estoque.Lote, db.Kits.QuantidadeKits, db.Kits.Nome,
+    Kits = db().select(db.Produto.ProdutoDescricao,
+                       db.Estoque.Lote,
+                       db.Kits.QuantidadeKits,
+                       db.Kits.Nome,
                        db.Kits.ID_Estoque,
                        join=(db.Estoque.on(db.Kits.ID_Estoque.contains(db.Estoque.id)),
                              db.Produto.on(db.Estoque.ID_Produto == db.Produto.id)))
 
-    return dict(tabelaKits=Kits)
+    nome, itens, qtd_kit = [],[],[]
+    for x in Kits:
+        if x.Kits.Nome not in nome:
+            itens_exibicao = ""
+            nome.append(x.Kits.Nome)
+            #for j in x.Produto: #3 Quantidade de Kits
+            for j in Kits:
+                if x.Kits.Nome == j['Kits']['Nome']:
+                    nv_item = "{0} - Lote: {1} ".format(j['Produto']['ProdutoDescricao'],j['Estoque']['Lote'])+"\n"
+                    itens_exibicao = itens_exibicao + nv_item
+            itens.append(itens_exibicao)
+
+        qtd_kit.append(x.Kits.QuantidadeKits)
+
+
+    return dict(nome=nome,itens=itens,qtd_kit=qtd_kit,tabelaKits=Kits, listaProdutos=subQuery)
 
 @auth.requires_login()
 def relatorio():

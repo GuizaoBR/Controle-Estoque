@@ -17,9 +17,7 @@
   flex-basis: 50%
 }
 
-.btn{
-  flex-shrink: 0
-}
+
 .mover{
   flex-basis: 100%;
 }
@@ -32,4 +30,31 @@ label{
 
 h1{
   font-size: 3em
+}
+
+.btn{
+  font-family: arial;
+  font-size:14px;
+  font-weight:700;
+  text-transform: uppercase;
+  border:none;
+  padding:10px;
+  cursor: pointer;
+  display:inline-block;
+  text-decoration: none;
+}
+.btn-green{
+	background:green;
+	color:#fff;
+	box-shadow:0 5px 0 #006000;
+}
+.btn-green:hover{
+	background:#006000;
+	color:#fff;
+	box-shadow:0 5px 0 #003f00;
+}
+.btn-green:active{
+	position:relative;
+	top:5px;
+	box-shadow:none;
 }

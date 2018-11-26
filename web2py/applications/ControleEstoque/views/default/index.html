@@ -7,27 +7,27 @@
 
 {{block conteudo}}
 <center>
-  <button class="btnR button-green"><a href="{{=URL('validade')}}">Verifcar validade</a></button>
+  <button class="btnR button-green"><a href="{{=URL('validadeManual')}}">Verifcar validade</a></button>
 </center>
 
   <table class="TblProduto">
         <tr>
-            <th >Produto</th>
+            <th>Produto</th>
             <th>Lote</th>
-            <th >Quantidade</th>
-            <th >Data de Validade</th>
+            <th>Quantidade</th>
+            <th>Data de Validade</th>
         </tr>
         {{for i, produto in enumerate(tabela):}}
         {{if i == quantidadePagina: break}}
         <tr>
-            <td >{{=produto.Produto.ProdutoDescricao}}</td>
-            <td >{{=produto.Estoque.Lote}}</td>
+            <td>{{=produto.Produto.ProdutoDescricao}}</td>
+            <td>{{=produto.Estoque.Lote}}</td>
             {{if produto.TipoUnidade.TipoUnidadeDescricao == "Unidade":}}
-              <td >{{=int(produto.Estoque.Quantidade)}} Uni</td>
+              <td>{{=int(produto.Estoque.Quantidade)}} Uni</td>
             {{else:}}
-              <td >{{=produto.Estoque.Quantidade}} g</td>
+              <td>{{=produto.Estoque.Quantidade}} g</td>
             {{pass}}
-            <td >{{=produto.Estoque.Validade.strftime("%d/%m/%Y")}}</td>
+            <td>{{=produto.Estoque.Validade.strftime("%d/%m/%Y")}}</td>
         </tr>
         {{pass}}
 

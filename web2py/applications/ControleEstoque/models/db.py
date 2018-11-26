@@ -209,6 +209,12 @@ db.define_table('SaidaProdutoEstoque',
                 Field('Quantidade', type='double'),
                 )
 
+db.define_table('email',
+    Field('status', default="pendente"),
+    Field('email', default="gui.germano.silva@gmail.com"),
+    Field('assunto'),
+    Field('mensagem')
+    )
 
 
 

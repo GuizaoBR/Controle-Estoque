@@ -57,18 +57,26 @@
                   <fieldset>
                     {{=entradaProdutos.custom.begin}}
                       {{=entradaProdutos.custom.widget.ID_Produto}}
+                        {{if entradaProdutos.errors.ID_Produto:}}
+                          <div class="error" id="Produto">{{=entradaProdutos.errors.ID_Produto}}</div>
+                        {{pass}}
+
                       {{=entradaProdutos.custom.widget.Lote}}
+                        {{if entradaProdutos.Lote.errors:}}
+                          <div class="error" id="Lote">{{=entradaProdutos.errors.Lote}}</div>
+                        {{pass}}
+
                       {{=entradaProdutos.custom.widget.Validade}}
+                        {{if entradaProdutos.Validade.errors:}}
+                          <div class="error" id="Validade">{{=entradaProdutos.errors.Validade}}</div>
+                        {{pass}}
+
                       {{=entradaProdutos.custom.widget.Quantidade}}
+                        {{if entradaProdutos.Quantidade.errors:}}
+                          <div class="error" id="Quantidade">{{=entradaProdutos.errors.Quantidade}}</div>
+                        {{pass}}
                     {{=entradaProdutos.custom.end}}
-                    {{if entradaProdutos.errors:}}
-                      <div class="erros">
-                        <div class="error" id="Produto">{{=entradaProdutos.errors.ID_Produto}}</div>
-                        <div class="error" id="Lote">{{=entradaProdutos.errors.Lote}}</div>
-                        <div class="error" id="Validade">{{=entradaProdutos.errors.Validade}}</div>
-                        <div class="error" id="Quantidade">{{=entradaProdutos.errors.Quantidade}}</div>
-                      </div>
-                    {{pass}}
+
                   </fieldset>
                   <div class="botoes">
                     <button type="submit" onclick="formSubmit()">CADASTRAR</button>
